@@ -3,11 +3,137 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles/style.css" />
+    <link rel="stylesheet" href="/src/styles/text.css" />
+    <link rel="stylesheet" href="/src/styles/colors.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Airbnb</title>
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/main.ts" defer></script>
   </head>
   <body>
+    <header class="header">
+      <nav>
+        <button
+          class="airbnbButton"
+          type="button"
+          onclick="navigateSection('home')"
+        >
+          <img
+            src="/public/assets/logo.svg"
+            style="width: 25px"
+            alt="Airbnb logo"
+          />
+          <p class="text-lg">Airbnb</p>
+        </button>
+        <button
+          class="mobileMenuButton"
+          type="button"
+          onclick="handleMobileMenu()"
+        >
+          <img
+            src="/public/assets/hamb-menu.svg"
+            style="width: 35px"
+            alt="hamburger menu icon"
+          />
+        </button>
+        <div class="mainNav">
+          <button>Maisons</button>
+          <button>Appartements</button>
+          <button>Garage</button>
+        </div>
+        <div class="actionsNav">
+          <button onclick="navigateSection('create')">Ajouter</button>
+          <button onclick="navigateSection('connection')">Admin</button>
+        </div>
+      </nav>
+    </header>
+    <ul class="mobileNavList">
+      <li>
+        <a href="#" onclick="handleMenuItemClick('create')"
+          >Ajouter une annonce</a
+        >
+      </li>
+      <li>
+        <a href="#" onclick="handleMenuItemClick('connection')"
+          >Espace administrateur</a
+        >
+      </li>
+      <!-- <li><a href="#" onclick="handleMenuItemClick('admin')">Admin</a></li> -->
+      <div>
+        <img
+          src="/public/assets/logo.svg"
+          style="width: 30px"
+          alt="Airbnb logo"
+        />
+        <a href="#" onclick="handleMenuItemClick('home');">Airbnb</a>
+      </div>
+    </ul>
     <div id="app"></div>
+    <script>
+      "use strict";
+
+      const app = document.getElementById("app");
+      console.log(app);
+      window.onload = () => navigateSection("home");
+      const mobileNavList = document.querySelector(".mobileNavList");
+      mobileNavList.style.display = "none";
+
+      function handleMenuItemClick(section) {
+        navigateSection(section);
+        handleMobileMenu();
+      }
+
+      function handleMobileMenu() {
+        if (mobileNavList.style.display === "none") {
+          mobileNavList.style.display = "flex";
+        } else {
+          mobileNavList.style.display = "none";
+        }
+      }
+
+      // redirige vers la bonne section et call la fonction d'injection du contenu
+      function navigateSection(section) {
+        switch (section) {
+          case "home":
+            loadSection("src/pages/home.html");
+            break;
+          case "create":
+            loadSection("src/pages/create.html");
+            break;
+          case "connection":
+            loadSection("src/pages/connection.html");
+            break;
+          case "admin":
+            loadSection("src/pages/admin.html");
+            break;
+          default:
+            break;
+        }
+      }
+
+      function loadSection(section) {
+        fetch(section)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.text();
+          })
+          .then((html) => {
+            if (app) {
+              app.innerHTML = html;
+            }
+          })
+          .catch((error) =>
+            console.error("Error loading the section: ", error)
+          );
+      }
+    </script>
   </body>
 </html>

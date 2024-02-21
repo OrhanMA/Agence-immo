@@ -7,3 +7,4 @@
 - CSS
 - Figma
 - Jira software
+- Google Font - Lexend

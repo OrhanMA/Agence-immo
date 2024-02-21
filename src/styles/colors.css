@@ -1,0 +1,42 @@
+:root {
+  --pink: #ff385c;
+  --dark-pink: #c62643;
+  --eerie-black: #222222;
+  --dim-gray: #717171;
+  --ghost-gray: #ebebeb;
+  --back-gray: #f7f7f7;
+  --desctructive: #eb002a;
+  --destructive-dark: #c60024;
+}
+
+.text-pink {
+  color: var(--pink);
+}
+
+.text-dark-pink {
+  color: var(--dark-pink);
+}
+
+.text-eerie-black {
+  color: var(--eerie-black);
+}
+
+.text-dim-gray {
+  color: var(--dim-gray);
+}
+
+.text-ghost-gray {
+  color: var(--ghost-gray);
+}
+
+.text-back-gray {
+  color: var(--back-gray);
+}
+
+.text-destructive {
+  color: var(--desctructive);
+}
+
+.text-destructive-dark {
+  color: var(--destructive-dark);
+}

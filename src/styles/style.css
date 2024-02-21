@@ -1,0 +1,187 @@
+/* <uniquifier>: Use a uniquifier for the class name */
+/* <weight>: Use a value from 100 to 900 */
+
+/* .lexend-<uniquifier> {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+} */
+
+:root {
+  font-size: 16px;
+}
+
+* {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none;
+}
+
+.header {
+  /* width: 100vw; */
+  border-bottom: solid 1px var(--back-gray);
+  padding: 0.5rem;
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  button {
+    border: none;
+    background: none;
+  }
+}
+
+.mobileNavList {
+  background-color: white;
+  position: absolute;
+  width: 100vw;
+  top: 55px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+  padding-top: 1rem;
+  gap: 1rem;
+
+  li {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    a {
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      color: var(--eerie-black);
+      padding: 0.5rem;
+      border-bottom: solid 1px var(--back-gray);
+    }
+  }
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    a {
+      text-decoration: none;
+      color: var(--pink);
+    }
+  }
+}
+
+.airbnbButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  :hover {
+    cursor: pointer;
+  }
+  p {
+    display: none;
+    color: var(--pink);
+    font-weight: 500;
+  }
+}
+
+.mainNav {
+  display: none;
+
+  button {
+    transition-duration: 300ms;
+    padding: 0.3rem 0.7rem;
+    font-weight: 300;
+    border-radius: 5px;
+  }
+  button:hover {
+    cursor: pointer;
+    font-weight: 400;
+    background-color: var(--back-gray);
+  }
+}
+
+.actionsNav {
+  border: solid 1px var(--ghost-gray);
+  border-radius: 5px;
+  display: none;
+  gap: 0;
+
+  button {
+    transition-duration: 300ms;
+    padding: 0.3rem 0.7rem;
+    font-weight: 300;
+    /* border-radius: 5px; */
+  }
+
+  button:hover {
+    cursor: pointer;
+    font-weight: 400;
+  }
+}
+
+.actionsNav :first-child {
+  border-right: solid 1px var(--back-gray);
+  background-color: var(--eerie-black);
+  color: var(--ghost-gray);
+  border-radius: 5px 0px 0px 5px;
+}
+.actionsNav :first-child:hover {
+  background-color: black;
+  color: white;
+}
+.actionsNav :nth-child(2) {
+  border-right: solid 1px var(--back-gray);
+  background-color: var(--back-gray);
+  color: var(--dim-gray);
+  border-radius: 0px 5px 5px 0px;
+}
+.actionsNav :nth-child(2):hover {
+  background-color: var(--ghost-gray);
+  color: black;
+}
+
+@media screen and (min-width: 640px) {
+  .mobileMenuButton {
+    display: none;
+  }
+
+  .mainNav,
+  .actionsNav,
+  .airbnbButton > p {
+    display: flex;
+  }
+
+  .header {
+    padding: 1rem 2rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .header {
+    padding: 1rem 2rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .header {
+    padding: 1rem 2rem;
+  }
+  .mainNav {
+    button {
+      font-size: 1rem; /* 16px */
+      line-height: 1.5rem; /* 24px */
+      padding: 0.2rem 1rem;
+    }
+  }
+}
