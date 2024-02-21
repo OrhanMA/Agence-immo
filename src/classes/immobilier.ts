@@ -1,24 +1,35 @@
 import { BienImmobilierInterface } from "../types";
 
 export class BienImmobilier {
-  #titre;
+  #ville;
+  #pays;
   #prestataire;
   #duree;
   #prix;
   #photoUrl;
 
   constructor({
-    titre,
+    ville,
+    pays,
     prestataire,
     duree,
     prix,
     photoUrl,
   }: BienImmobilierInterface) {
-    this.#titre = titre;
+    this.#ville = ville;
+    this.#pays = pays;
     this.#prestataire = prestataire;
     this.#duree = duree;
     this.#prix = prix;
     this.#photoUrl = photoUrl;
+  }
+
+  get pays(): string {
+    return this.#pays;
+  }
+
+  set pays(pays: string) {
+    this.#pays = pays;
   }
 
   get prestataire(): string {
@@ -29,12 +40,12 @@ export class BienImmobilier {
     this.#prestataire = prestataire;
   }
 
-  get titre(): string {
-    return this.#titre;
+  get ville(): string {
+    return this.#ville;
   }
 
-  set titre(titre: string) {
-    this.#titre = titre;
+  set ville(ville: string) {
+    this.#ville = ville;
   }
 
   get duree(): string {

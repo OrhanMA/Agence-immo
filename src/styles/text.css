@@ -1,3 +1,9 @@
+h1 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+}
+
 .text-xs {
   font-size: 0.75rem; /* 12px */
   line-height: 1rem; /* 16px */

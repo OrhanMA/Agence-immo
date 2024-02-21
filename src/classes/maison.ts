@@ -5,9 +5,10 @@ export class Maison extends BienImmobilier {
   #etages;
   #jardin;
   #garage;
-
+  #type = "maison";
   constructor({
-    titre,
+    ville,
+    pays,
     prestataire,
     duree,
     prix,
@@ -16,10 +17,14 @@ export class Maison extends BienImmobilier {
     jardin,
     garage,
   }: MaisonInterface) {
-    super({ titre, prestataire, duree, prix, photoUrl });
+    super({ ville, pays, prestataire, duree, prix, photoUrl });
     this.#etages = etages;
     this.#jardin = jardin;
     this.#garage = garage;
+  }
+
+  get type() {
+    return this.#type;
   }
 
   get etages() {

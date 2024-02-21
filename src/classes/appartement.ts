@@ -5,9 +5,11 @@ export class Appartement extends BienImmobilier {
   #etage;
   #balcon;
   #ascenseur;
+  #type = "appartement";
 
   constructor({
-    titre,
+    ville,
+    pays,
     prestataire,
     duree,
     prix,
@@ -16,10 +18,21 @@ export class Appartement extends BienImmobilier {
     balcon,
     ascenseur,
   }: AppartementInterface) {
-    super({ titre, prestataire, duree, prix, photoUrl });
+    super({
+      ville,
+      pays,
+      prestataire,
+      duree,
+      prix,
+      photoUrl,
+    });
     this.#etage = etage;
     this.#balcon = balcon;
     this.#ascenseur = ascenseur;
+  }
+
+  get type() {
+    return this.#type;
   }
 
   get etage() {

@@ -43,9 +43,9 @@
           />
         </button>
         <div class="mainNav">
-          <button>Maisons</button>
-          <button>Appartements</button>
-          <button>Garage</button>
+          <button onclick="selectCategory('maisons')">Maisons</button>
+          <button onclick="selectCategory('appartements')">Appartements</button>
+          <button onclick="selectCategory('garage')">Garage</button>
         </div>
         <div class="actionsNav">
           <button onclick="navigateSection('create')">Ajouter</button>
@@ -64,7 +64,6 @@
           >Espace administrateur</a
         >
       </li>
-      <!-- <li><a href="#" onclick="handleMenuItemClick('admin')">Admin</a></li> -->
       <div>
         <img
           src="/public/assets/logo.svg"
@@ -74,21 +73,164 @@
         <a href="#" onclick="handleMenuItemClick('home');">Airbnb</a>
       </div>
     </ul>
-    <div id="app"></div>
+    <div id="app">
+      <div id="homePage" class="page" style="display: none">
+        <!-- Content for the home page goes here -->
+        <div class="home-container">
+          <div class="filters-container">
+            <button class="mobile-trigger">
+              <img src="/public/assets/filter-icon.svg" alt="" srcset="" />
+              Filtres
+            </button>
+          </div>
+          <div class="annonces"></div>
+        </div>
+      </div>
+      <div id="createPage" class="page" style="display: none">
+        <div class="create-container">
+          <h1>Ajouter une annonce</h1>
+          <p>Remplissez le formulaire pour ajouter une nouvelle annonce.</p>
+          <p>Quel type de bien souhaitez-vous ajouter?</p>
+          <select name="type" id="typeSelect" onchange="handleTypeChange()">
+            <option value="maison">maison</option>
+            <option value="appartement">appartement</option>
+            <option value="garage">garage</option>
+          </select>
+          <form id="maisonForm">
+            <div class="field-container">
+              <label for="ville">Ville</label>
+              <input
+                required
+                maxlength="30"
+                type="text"
+                name="ville"
+                id="maisonVille"
+              />
+            </div>
+            <div class="field-container">
+              <label for="pays">Pays</label>
+              <input
+                required
+                maxlength="20"
+                type="text"
+                name="pays"
+                id="maisonPays"
+              />
+            </div>
+            <div class="field-container">
+              <label for="prestataire">Prestataire</label>
+              <select required name="prestataire" id="maisonPrestataire">
+                <option value="professionnel">professionnel</option>
+                <option value="particulier">particulier</option>
+              </select>
+            </div>
+            <div class="field-container">
+              <label for="duree">Duree</label>
+              <input
+                required
+                maxlength="20"
+                type="text"
+                name="duree"
+                id="maisonDuree"
+              />
+            </div>
+            <div class="field-container">
+              <label for="prix">Prix / jour</label>
+              <input
+                required
+                type="number"
+                max="1000"
+                min="100"
+                name="prix"
+                id="maisonPrix"
+              />
+            </div>
+            <div class="field-container">
+              <label for="etages">Etages</label>
+              <input
+                required
+                type="number"
+                min="1"
+                max="5"
+                name="etages"
+                id="maisonEtages"
+              />
+            </div>
+            <div class="field-container">
+              <label for="photo">Photo</label>
+              <input
+                type="file"
+                name="photo"
+                id="maisonPhoto"
+                accept="image/*"
+              />
+            </div>
+            <div class="field-container">
+              <label for="jardin">Jardin</label>
+              <input type="checkbox" name="jardin" id="maisonJardin" />
+            </div>
+            <div class="field-container">
+              <label for="garage">Garage</label>
+              <input type="checkbox" name="garage" id="maisonGarage" />
+            </div>
+
+            <button type="submit">Ajouter</button>
+          </form>
+          <form id="appartementForm">appartement form</form>
+          <form id="garageForm">Garage form</form>
+        </div>
+        <!-- Content for the create page goes here -->
+      </div>
+      <div id="connectionPage" class="page" style="display: none">
+        <!-- Content for the connection page goes here -->
+      </div>
+      <div id="adminPage" class="page" style="display: none">
+        <!-- Content for the admin page goes here -->
+      </div>
+    </div>
     <script>
       "use strict";
 
       const app = document.getElementById("app");
-      console.log(app);
-      window.onload = () => navigateSection("home");
+      const typeSelect = document.querySelector("#typeSelect");
+      const createContainer = document.querySelector(".create-container");
+      const createForms = createContainer.querySelectorAll("form");
+      // console.log(createForms);
+      // console.log(app);
+      window.onload = () => {
+        // navigateSection("home");
+        navigateSection("create");
+        showSelectedForm(typeSelect.value);
+      };
       const mobileNavList = document.querySelector(".mobileNavList");
+      // console.log(mobileNavList);
       mobileNavList.style.display = "none";
+
+      let selectedCategory = "";
 
       function handleMenuItemClick(section) {
         navigateSection(section);
         handleMobileMenu();
       }
 
+      // Function to select a category
+      function selectCategory(category) {
+        selectedCategory = category; // Corrected variable name
+        console.log(selectedCategory);
+        updateCategoryStyle(); // Update the style of category buttons
+      }
+
+      // Function to update the style of category buttons
+      function updateCategoryStyle() {
+        const buttons = document.querySelectorAll(".mainNav button"); // Select all category buttons
+        buttons.forEach((button) => {
+          if (button.textContent.toLowerCase() === selectedCategory) {
+            button.style.fontWeight = "500"; // Add a class to the selected category button
+          } else {
+            button.style.fontWeight = "300"; // Remove the class from other buttons
+          }
+        });
+      }
       function handleMobileMenu() {
         if (mobileNavList.style.display === "none") {
           mobileNavList.style.display = "flex";
@@ -99,40 +241,32 @@
 
       // redirige vers la bonne section et call la fonction d'injection du contenu
       function navigateSection(section) {
-        switch (section) {
-          case "home":
-            loadSection("src/pages/home.html");
-            break;
-          case "create":
-            loadSection("src/pages/create.html");
-            break;
-          case "connection":
-            loadSection("src/pages/connection.html");
-            break;
-          case "admin":
-            loadSection("src/pages/admin.html");
-            break;
-          default:
-            break;
+        document.querySelectorAll(".page").forEach((page) => {
+          page.style.display = "none"; // Hide all pages
+        });
+
+        const pageId = section + "Page";
+        const page = document.getElementById(pageId);
+        if (page) {
+          page.style.display = "block"; // Show the selected page
         }
       }
 
-      function loadSection(section) {
-        fetch(section)
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.text();
-          })
-          .then((html) => {
-            if (app) {
-              app.innerHTML = html;
-            }
-          })
-          .catch((error) =>
-            console.error("Error loading the section: ", error)
-          );
+      function handleTypeChange() {
+        showSelectedForm(typeSelect.value);
+      }
+
+      function showSelectedForm(type) {
+        // console.log(type);
+        const selectedForm = document.querySelector(`#${type}Form`);
+        // console.log(selectedForm);
+        createForms.forEach((form) => {
+          if (form === selectedForm) {
+            form.style.display = "flex";
+          } else {
+            form.style.display = "none";
+          }
+        });
       }
     </script>
   </body>
