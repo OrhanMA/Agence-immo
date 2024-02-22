@@ -29,17 +29,17 @@
   /* width: 100vw; */
   border-bottom: solid 1px var(--back-gray);
   padding: 0.5rem;
+}
 
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+.header nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  button {
-    border: none;
-    background: none;
-  }
+.header button {
+  border: none;
+  background: none;
 }
 
 .filters-dialog {
@@ -54,22 +54,23 @@
   gap: 1rem;
   margin-top: 0.5rem;
   padding: 1rem;
+}
 
-  :first-child,
-  :last-child {
-    background-color: var(--back-gray);
-    color: var(--eerie-black);
-    border: solid 1px var(--dim-gray);
-  }
-  button {
-    font-weight: 300;
-    width: 200px;
-    background-color: var(--eerie-black);
-    color: var(--ghost-gray);
-    border: none;
-    border-radius: 5px;
-    padding: 0.3rem 0.5rem;
-  }
+.filters-dialog :first-child,
+.filters-dialog :last-child {
+  background-color: var(--back-gray);
+  color: var(--eerie-black);
+  border: solid 1px var(--dim-gray);
+}
+
+.filters-dialog button {
+  font-weight: 300;
+  width: 200px;
+  background-color: var(--eerie-black);
+  color: var(--ghost-gray);
+  border: none;
+  border-radius: 5px;
+  padding: 0.3rem 0.5rem;
 }
 
 .mobileNavList {
@@ -83,63 +84,68 @@
   list-style: none;
   padding-top: 1rem;
   gap: 1rem;
+}
 
-  li {
-    width: 80%;
-    display: flex;
-    justify-content: center;
-    a {
-      width: 100%;
-      text-align: center;
-      text-decoration: none;
-      color: var(--eerie-black);
-      padding: 0.5rem;
-      border-bottom: solid 1px var(--back-gray);
-    }
-  }
+.mobileNavList li {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+}
 
-  div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-    a {
-      text-decoration: none;
-      color: var(--pink);
-    }
-  }
+.mobileNavList li a {
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  color: var(--eerie-black);
+  padding: 0.5rem;
+  border-bottom: solid 1px var(--back-gray);
+}
+
+.mobileNavList div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.mobileNavList div a {
+  text-decoration: none;
+  color: var(--pink);
 }
 
 .airbnbButton {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  :hover {
-    cursor: pointer;
-  }
-  p {
-    display: none;
-    color: var(--pink);
-    font-weight: 500;
-  }
+}
+
+.airbnbButton :hover {
+  cursor: pointer;
+}
+
+.airbnbButton p {
+  display: none;
+  color: var(--pink);
+  font-weight: 500;
 }
 
 .mainNav {
   display: none;
+}
 
-  button {
-    transition-duration: 300ms;
-    padding: 0.3rem 0.7rem;
-    font-weight: 300;
-    border-radius: 5px;
-  }
-  button:hover {
-    cursor: pointer;
-    font-weight: 400;
-    background-color: var(--back-gray);
-  }
+.mainNav button {
+  transition-duration: 300ms;
+  padding: 0.3rem 0.7rem;
+  font-weight: 300;
+  border-radius: 5px;
+}
+
+.mainNav button:hover {
+  cursor: pointer;
+  font-weight: 400;
+  background-color: var(--back-gray);
 }
 
 .actionsNav {
@@ -147,20 +153,19 @@
   border-radius: 5px;
   display: none;
   gap: 0;
-
-  button {
-    transition-duration: 300ms;
-    padding: 0.3rem 0.7rem;
-    font-weight: 300;
-    /* border-radius: 5px; */
-  }
-
-  button:hover {
-    cursor: pointer;
-    font-weight: 400;
-  }
 }
 
+.actionsNav button {
+  transition-duration: 300ms;
+  padding: 0.3rem 0.7rem;
+  font-weight: 300;
+  /* border-radius: 5px; */
+}
+
+.actionsNav button:hover {
+  cursor: pointer;
+  font-weight: 400;
+}
 .actionsNav :first-child {
   border-right: solid 1px var(--back-gray);
   background-color: var(--eerie-black);
@@ -190,63 +195,81 @@
 }
 .home-container {
   align-items: center;
-  .filters-container {
-    width: 100%;
-    border-bottom: solid 1px var(--back-gray);
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-  }
+}
 
-  .annonces {
-    padding: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    width: 100%;
-    .annonce-card {
-      width: 45%;
-      img {
-        border-radius: 10px;
-        width: 100%;
-        aspect-ratio: 1/1;
-        object-fit: cover;
-      }
+.filters-container {
+  width: 100%;
+  border-bottom: solid 1px var(--back-gray);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+.annonces {
+  padding: 0.5rem;
+  margin: auto;
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+  width: 100%;
+}
 
-      div {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        width: 100%;
-        margin-top: 0.5rem;
-        p {
-          text-align: center;
-        }
+.annonce-card {
+  width: 100%;
+  margin-bottom: 2rem;
+}
 
-        :first-child {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
+.annonce-card > img {
+  border-radius: 10px;
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
 
-        :nth-child(2),
-        :nth-child(3),
-        .secondary-fields {
-          color: var(--dim-gray);
-          font-size: 0.8rem;
-        }
-        :nth-child(4) {
-          font-weight: 300;
-          font-size: 0.9rem;
-        }
+.annonce-card > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
 
-        .bold {
-          font-weight: 500;
-        }
-      }
-    }
-  }
+/* .annonce-card div p {
+  text-align: center;
+} */
+
+.annonce-card div :first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.annonce-card div :nth-child(2),
+.annonce-card div :nth-child(3),
+.secondary-fields {
+  color: var(--dim-gray);
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.annonce-card div :nth-child(4) {
+  font-weight: 400;
+}
+
+.annonce-card div .bold {
+  font-weight: 500;
+}
+
+.annonce-card-details {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.annonce-card-details-group {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  gap: 0.5rem;
 }
 
 .create-container {
@@ -336,35 +359,36 @@
   align-items: center;
   font-weight: 300;
   gap: 0.5rem;
+}
 
-  img {
-    width: 20px;
-  }
+.mobile-trigger img {
+  width: 20px;
 }
 
 .large-screen-filters {
   display: none;
   gap: 0.5rem;
-  button {
-    font-weight: 300;
-    padding: 0.2rem 0.5rem;
-    background-color: var(--eerie-black);
-    color: var(--ghost-gray);
-    border: none;
-    border-radius: 5px;
+}
+
+.large-screen-filters button {
+  font-weight: 300;
+  padding: 0.2rem 0.5rem;
+  background-color: var(--eerie-black);
+  color: var(--ghost-gray);
+  border: none;
+  border-radius: 5px;
+}
+
+@media screen and (min-width: 550px) {
+  .annonces {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media screen and (min-width: 640px) {
-  .mobile-trigger {
-    display: none;
+  .create-container {
+    width: 80%;
   }
-  .large-screen-filters {
-    display: flex;
-  }
-}
-
-@media screen and (min-width: 640px) {
   .mobileMenuButton {
     display: none;
   }
@@ -378,15 +402,42 @@
   .header {
     padding: 1rem 2rem;
   }
+
+  .mobile-trigger {
+    display: none;
+  }
+  .large-screen-filters {
+    display: flex;
+  }
 }
 
 @media screen and (min-width: 768px) {
+  .create-container {
+    width: 70%;
+  }
   .header {
     padding: 1rem 2rem;
+  }
+  .annonces {
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .annonce-card div p {
+    text-align: left;
+  }
+}
+
+@media screen and (min-width: 950px) {
+  .annonces {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media screen and (min-width: 1024px) {
+  .create-container {
+    width: 50%;
+  }
   .header {
     padding: 1rem 2rem;
   }
@@ -397,4 +448,32 @@
       padding: 0.2rem 1rem;
     }
   }
+
+  .price-filter {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (min-width: 1128px) {
+  .annonces {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media screen and (min-width: 1300px) {
+  .create-container {
+    width: 40%;
+  }
+  .annonces {
+    padding: 3rem;
+    gap: 1.5rem;
+  }
+}
+@media screen and (min-width: 1640px) {
+  .annonces {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+button:hover {
+  cursor: pointer;
 }

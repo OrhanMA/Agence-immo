@@ -107,6 +107,7 @@ headerFiltersButtons.forEach((button) => {
     );
     injectListing(filteredListing);
     updateCategoryStyle();
+    navigateSection("home");
   });
 });
 mobileFilterChoiceButtons.forEach((button) => {
@@ -211,7 +212,7 @@ function injectListing<T extends BienImmobilierInterface>(listings: T[]) {
   }
 
   // console.log(annonceContainer);
-  listings.forEach((annonce: T) => {
+  listings.forEach((annonce: any) => {
     // console.log(annonce);
 
     const annonceCard = document.createElement("div");
@@ -228,8 +229,11 @@ function injectListing<T extends BienImmobilierInterface>(listings: T[]) {
     }
 
     const detailsContainer = document.createElement("div");
+
     const location = document.createElement("p");
     location.textContent = `${annonce.ville}, ${annonce.pays}`;
+    const type = document.createElement("p");
+    type.textContent = annonce.type;
     const prestataire = document.createElement("p");
     prestataire.textContent = annonce.prestataire;
     const dates = document.createElement("p");
@@ -242,6 +246,7 @@ function injectListing<T extends BienImmobilierInterface>(listings: T[]) {
     price.innerHTML += " par jour";
 
     detailsContainer.appendChild(location);
+    detailsContainer.appendChild(type);
     detailsContainer.appendChild(prestataire);
     detailsContainer.appendChild(dates);
     detailsContainer.appendChild(price);
@@ -249,18 +254,49 @@ function injectListing<T extends BienImmobilierInterface>(listings: T[]) {
     // Ajouter du contenu spécifique en fonction du type d'annonce
     if ("etages" in annonce) {
       const maison = annonce as unknown as MaisonInterface;
+      const detailsDiv = document.createElement("div");
+      detailsDiv.classList.add("annonce-card-details");
+
+      const etagesDiv = document.createElement("div");
+      etagesDiv.classList.add("annonce-card-details-group");
+      const etagesIcon = document.createElement("img");
+      etagesIcon.src = "/assets/stairs.png";
+      etagesIcon.alt = "stairs icon";
+      etagesIcon.style.width = "20px";
       const etages = document.createElement("p");
-      etages.textContent = `Nombre d'étages: ${maison.etages}`;
+      etages.textContent = `${maison.etages}`;
+
+      const jardinDiv = document.createElement("div");
+      jardinDiv.classList.add("annonce-card-details-group");
+      const jardinIcon = document.createElement("img");
+      jardinIcon.src = "/assets/tree.png";
+      jardinIcon.alt = "garden icon";
+      jardinIcon.style.width = "20px";
       const jardin = document.createElement("p");
-      jardin.textContent = `Jardin: ${maison.jardin ? "✅" : "❌"}`;
+      jardin.textContent = `${maison.jardin ? "✅" : "❌"}`;
+
+      const garageDiv = document.createElement("div");
+      garageDiv.classList.add("annonce-card-details-group");
+      const garageIcon = document.createElement("img");
+      garageIcon.src = "/assets/private-garage.png";
+      garageIcon.alt = "garage icon";
+      garageIcon.style.width = "20px";
       const garage = document.createElement("p");
-      garage.textContent = `Garage: ${maison.garage ? "✅" : "❌"}`;
+      garage.textContent = `${maison.garage ? "✅" : "❌"}`;
+
       etages.classList.add("secondary-fields");
       jardin.classList.add("secondary-fields");
       garage.classList.add("secondary-fields");
-      detailsContainer.appendChild(etages);
-      detailsContainer.appendChild(jardin);
-      detailsContainer.appendChild(garage);
+      etagesDiv.appendChild(etagesIcon);
+      etagesDiv.appendChild(etages);
+      jardinDiv.appendChild(jardinIcon);
+      jardinDiv.appendChild(jardin);
+      garageDiv.appendChild(garageIcon);
+      garageDiv.appendChild(garage);
+      detailsDiv.appendChild(etagesDiv);
+      detailsDiv.appendChild(jardinDiv);
+      detailsDiv.appendChild(garageDiv);
+      detailsContainer.appendChild(detailsDiv);
     } else if ("etage" in annonce) {
       const appartement = annonce as unknown as AppartementInterface;
       const etage = document.createElement("p");
@@ -269,7 +305,7 @@ function injectListing<T extends BienImmobilierInterface>(listings: T[]) {
       balcon.textContent = `Balcon: ${appartement.balcon ? "✅" : "❌"}`;
       const ascenseur = document.createElement("p");
       ascenseur.textContent = `Ascenseur: ${
-        appartement.ascenseur ? "Oui" : "Non"
+        appartement.ascenseur ? "✅" : "❌"
       }`;
       etage.classList.add("secondary-fields");
       balcon.classList.add("secondary-fields");
@@ -280,11 +316,11 @@ function injectListing<T extends BienImmobilierInterface>(listings: T[]) {
     } else if ("places" in annonce) {
       const garage = annonce as unknown as GarageInterface;
       const places = document.createElement("p");
-      places.textContent = `places: ${garage.places}`;
+      places.textContent = `Places: ${garage.places}`;
       const outils = document.createElement("p");
-      outils.textContent = `outils: ${garage.outils ? "✅" : "❌"}`;
+      outils.textContent = `Outils: ${garage.outils ? "✅" : "❌"}`;
       const ouverture = document.createElement("p");
-      ouverture.textContent = `ouverture: ${garage.ouverture}`;
+      ouverture.textContent = `Ouverture: ${garage.ouverture}`;
       places.classList.add("secondary-fields");
       outils.classList.add("secondary-fields");
       ouverture.classList.add("secondary-fields");
