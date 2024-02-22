@@ -27,3 +27,8 @@ export interface GarageInterface extends BienImmobilierInterface {
   ouverture: "clef" | "code";
   type: "garage";
 }
+
+export type TousBiens =
+  | MaisonInterface
+  | AppartementInterface
+  | GarageInterface;

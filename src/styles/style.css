@@ -42,6 +42,36 @@
   }
 }
 
+.filters-dialog {
+  background-color: var(--back-gray);
+  border: solid 1px var(--ghost-gray);
+  width: 90vw;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 10px;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding: 1rem;
+
+  :first-child,
+  :last-child {
+    background-color: var(--back-gray);
+    color: var(--eerie-black);
+    border: solid 1px var(--dim-gray);
+  }
+  button {
+    font-weight: 300;
+    width: 200px;
+    background-color: var(--eerie-black);
+    color: var(--ghost-gray);
+    border: none;
+    border-radius: 5px;
+    padding: 0.3rem 0.5rem;
+  }
+}
+
 .mobileNavList {
   background-color: white;
   position: absolute;
@@ -165,20 +195,6 @@
     border-bottom: solid 1px var(--back-gray);
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
-    .mobile-trigger {
-      background-color: var(--back-gray);
-      padding: 0.3rem 0.5rem;
-      border-radius: 5px;
-      border: none;
-      display: flex;
-      align-items: center;
-      font-weight: 300;
-      gap: 0.5rem;
-
-      img {
-        width: 20px;
-      }
-    }
   }
 
   .annonces {
@@ -215,11 +231,12 @@
         }
 
         :nth-child(2),
-        :nth-child(3) {
+        :nth-child(3),
+        .secondary-fields {
           color: var(--dim-gray);
           font-size: 0.8rem;
         }
-        :last-child {
+        :nth-child(4) {
           font-weight: 300;
           font-size: 0.9rem;
         }
@@ -307,6 +324,43 @@
     .field-container:not(:nth-last-child(-n + 3)) {
       flex-direction: column;
     }
+  }
+}
+
+.mobile-trigger {
+  background-color: var(--back-gray);
+  padding: 0.3rem 0.5rem;
+  border-radius: 5px;
+  border: none;
+  display: flex;
+  align-items: center;
+  font-weight: 300;
+  gap: 0.5rem;
+
+  img {
+    width: 20px;
+  }
+}
+
+.large-screen-filters {
+  display: none;
+  gap: 0.5rem;
+  button {
+    font-weight: 300;
+    padding: 0.2rem 0.5rem;
+    background-color: var(--eerie-black);
+    color: var(--ghost-gray);
+    border: none;
+    border-radius: 5px;
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .mobile-trigger {
+    display: none;
+  }
+  .large-screen-filters {
+    display: flex;
   }
 }
 

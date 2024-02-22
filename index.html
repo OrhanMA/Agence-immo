@@ -43,9 +43,10 @@
           />
         </button>
         <div class="mainNav">
-          <button onclick="selectCategory('maisons')">Maisons</button>
-          <button onclick="selectCategory('appartements')">Appartements</button>
-          <button onclick="selectCategory('garage')">Garage</button>
+          <button class="headerFilterButton">Tous</button>
+          <button class="headerFilterButton">Maisons</button>
+          <button class="headerFilterButton">Appartements</button>
+          <button class="headerFilterButton">Garages</button>
         </div>
         <div class="actionsNav">
           <button onclick="navigateSection('create')">Ajouter</button>
@@ -75,13 +76,25 @@
     </ul>
     <div id="app">
       <div id="homePage" class="page" style="display: none">
-        <!-- Content for the home page goes here -->
         <div class="home-container">
           <div class="filters-container">
             <button class="mobile-trigger">
-              <img src="/public/assets/filter-icon.svg" alt="" srcset="" />
+              <img src="/public/assets/filter-icon.svg" alt="filtre icon" />
               Filtres
             </button>
+            <div class="large-screen-filters">
+              <button class="price-filter">Prix -</button>
+              <button class="price-filter">Prix +</button>
+            </div>
+            <div class="filters-dialog hidden">
+              <button class="mobile-filter-choice">Tous</button>
+              <button class="mobile-filter-choice">Maisons</button>
+              <button class="mobile-filter-choice">Appartements</button>
+              <button class="mobile-filter-choice">Garages</button>
+              <button class="mobile-filter-choice">Prix -</button>
+              <button class="mobile-filter-choice">Prix +</button>
+              <button class="mobile-filter-close-button">fermer</button>
+            </div>
           </div>
           <div class="annonces"></div>
         </div>
@@ -360,9 +373,6 @@
       const typeSelect = document.querySelector("#typeSelect");
       const createContainer = document.querySelector(".create-container");
       const createForms = createContainer.querySelectorAll("form");
-      // console.log(createForms);
-      // console.log(app);
-      console.log(typeSelect.value);
 
       navigateSection("home");
       showSelectedForm(typeSelect.value);
@@ -377,24 +387,6 @@
         handleMobileMenu();
       }
 
-      // Function to select a category
-      function selectCategory(category) {
-        selectedCategory = category; // Corrected variable name
-        console.log(selectedCategory);
-        updateCategoryStyle(); // Update the style of category buttons
-      }
-
-      // Function to update the style of category buttons
-      function updateCategoryStyle() {
-        const buttons = document.querySelectorAll(".mainNav button"); // Select all category buttons
-        buttons.forEach((button) => {
-          if (button.textContent.toLowerCase() === selectedCategory) {
-            button.style.fontWeight = "500"; // Add a class to the selected category button
-          } else {
-            button.style.fontWeight = "300"; // Remove the class from other buttons
-          }
-        });
-      }
       function handleMobileMenu() {
         if (mobileNavList.style.display === "none") {
           mobileNavList.style.display = "flex";
@@ -403,7 +395,6 @@
         }
       }
 
-      // redirige vers la bonne section et call la fonction d'injection du contenu
       function navigateSection(section) {
         document.querySelectorAll(".page").forEach((page) => {
           page.style.display = "none"; // Hide all pages
@@ -421,9 +412,7 @@
       }
 
       function showSelectedForm(type) {
-        // console.log(type);
         const selectedForm = document.querySelector(`#${type}Form`);
-        // console.log(selectedForm);
         createForms.forEach((form) => {
           if (form === selectedForm) {
             form.style.display = "flex";
