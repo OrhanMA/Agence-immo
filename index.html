@@ -176,8 +176,173 @@
 
             <button type="submit">Ajouter</button>
           </form>
-          <form id="appartementForm">appartement form</form>
-          <form id="garageForm">Garage form</form>
+          <form id="appartementForm">
+            <div class="field-container">
+              <label for="ville">Ville</label>
+              <input
+                required
+                maxlength="30"
+                type="text"
+                name="ville"
+                id="appartementVille"
+              />
+            </div>
+            <div class="field-container">
+              <label for="pays">Pays</label>
+              <input
+                required
+                maxlength="20"
+                type="text"
+                name="pays"
+                id="appartementPays"
+              />
+            </div>
+            <div class="field-container">
+              <label for="prestataire">Prestataire</label>
+              <select required name="prestataire" id="appartementPrestataire">
+                <option value="professionnel">professionnel</option>
+                <option value="particulier">particulier</option>
+              </select>
+            </div>
+            <div class="field-container">
+              <label for="duree">Duree</label>
+              <input
+                required
+                maxlength="20"
+                type="text"
+                name="duree"
+                id="appartementDuree"
+              />
+            </div>
+            <div class="field-container">
+              <label for="prix">Prix / jour</label>
+              <input
+                required
+                type="number"
+                max="1000"
+                min="100"
+                name="prix"
+                id="appartementPrix"
+              />
+            </div>
+            <div class="field-container">
+              <label for="etage">Numero d'etage</label>
+              <input
+                required
+                type="number"
+                min="1"
+                max="100"
+                name="etage"
+                id="appartementEtage"
+              />
+            </div>
+            <div class="field-container">
+              <label for="photo">Photo</label>
+              <input
+                type="file"
+                name="photo"
+                id="appartementPhoto"
+                accept="image/*"
+              />
+            </div>
+            <div class="field-container">
+              <label for="balcon">Balcon</label>
+              <input type="checkbox" name="balcon" id="appartementBalcon" />
+            </div>
+            <div class="field-container">
+              <label for="ascenseur">Ascenseur</label>
+              <input
+                type="checkbox"
+                name="ascenseur"
+                id="appartementAscenseur"
+              />
+            </div>
+
+            <button type="submit">Ajouter</button>
+          </form>
+          <form id="garageForm">
+            <div class="field-container">
+              <label for="ville">Ville</label>
+              <input
+                required
+                maxlength="30"
+                type="text"
+                name="ville"
+                id="garageVille"
+              />
+            </div>
+            <div class="field-container">
+              <label for="pays">Pays</label>
+              <input
+                required
+                maxlength="20"
+                type="text"
+                name="pays"
+                id="garagePays"
+              />
+            </div>
+            <div class="field-container">
+              <label for="prestataire">Prestataire</label>
+              <select required name="prestataire" id="garagePrestataire">
+                <option value="professionnel">professionnel</option>
+                <option value="particulier">particulier</option>
+              </select>
+            </div>
+            <div class="field-container">
+              <label for="duree">Duree</label>
+              <input
+                required
+                maxlength="20"
+                type="text"
+                name="duree"
+                id="garageDuree"
+              />
+            </div>
+            <div class="field-container">
+              <label for="prix">Prix / jour</label>
+              <input
+                required
+                type="number"
+                max="1000"
+                min="100"
+                name="prix"
+                id="garagePrix"
+              />
+            </div>
+            <div class="field-container">
+              <label for="places">Nombre de places</label>
+              <input
+                required
+                type="number"
+                min="1"
+                max="100"
+                name="places"
+                id="garagePlaces"
+              />
+            </div>
+            <div class="field-container">
+              <label for="ouverture">Ouverture</label>
+              <select name="ouverture" id="garageOuverture">
+                <option value="clef">clef</option>
+                <option value="code">code</option>
+              </select>
+            </div>
+            <div class="field-container">
+              <label for="outils">Outils disponibles</label>
+              <input type="checkbox" name="outils" id="garageOutils" />
+            </div>
+
+            <div class="field-container">
+              <label for="photo">Photo</label>
+              <input
+                type="file"
+                name="photo"
+                id="garagePhoto"
+                accept="image/*"
+              />
+            </div>
+            <button type="submit">Ajouter</button>
+          </form>
         </div>
         <!-- Content for the create page goes here -->
       </div>
@@ -197,11 +362,10 @@
       const createForms = createContainer.querySelectorAll("form");
       // console.log(createForms);
       // console.log(app);
-      window.onload = () => {
-        // navigateSection("home");
-        navigateSection("create");
-        showSelectedForm(typeSelect.value);
-      };
+      console.log(typeSelect.value);
+
+      navigateSection("home");
+      showSelectedForm(typeSelect.value);
       const mobileNavList = document.querySelector(".mobileNavList");
       // console.log(mobileNavList);
       mobileNavList.style.display = "none";
