@@ -1,6 +1,11 @@
 import { Maison } from "./classes/maison.ts";
 import { Appartement } from "./classes/appartement.ts";
 import { Garage } from "./classes/garage.ts";
+import { Credentials } from "./types.ts";
+export const credentials: Credentials = {
+  identifiant: "admin",
+  password: "admin",
+};
 
 const maison = new Maison({
   ville: "super maison",

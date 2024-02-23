@@ -32,3 +32,11 @@ export type TousBiens =
   | MaisonInterface
   | AppartementInterface
   | GarageInterface;
+
+export type Credentials = {
+  identifiant: string;
+  password: string;
+};
+
+export type Bien = "tous" | "maisons" | "appartements" | "garages";
+export type Prix = "prix -" | "prix +";

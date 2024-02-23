@@ -2,90 +2,119 @@
 import { Maison } from "./classes/maison.ts";
 import {
   AppartementInterface,
-  BienImmobilierInterface,
   GarageInterface,
   MaisonInterface,
-  TousBiens,
+  Credentials,
+  Bien,
+  Prix,
 } from "./types.ts";
 import { Appartement } from "./classes/appartement.ts";
 import { Garage } from "./classes/garage.ts";
+import { getListingByFilter, getAllListings } from "./listing/helper.ts";
+import {
+  handleMobileMenu,
+  handleTypeChange,
+  injectListing,
+  navigateSection,
+  navigateToSectionOnClick,
+  showSelectedForm,
+  toggleFilterDialog,
+  updateCategoryStyle,
+} from "./dom/helper.ts";
+import { credentials } from "./fixtures.ts";
+import { saveObjectToLocalStorage } from "./storage/helper.ts";
+import {
+  handleConnexionSubmission,
+  getClientCredentials,
+} from "./connexion/helper.ts";
+export let authenticated = false;
+const createContainer = document.querySelector(".create-container");
+export const createForms = createContainer?.querySelectorAll("form");
+window.onload = () => {
+  injectListing(getAllListings());
+  navigateSection("home");
+};
+export const typeSelect = document.querySelector(
+  "#typeSelect"
+) as HTMLSelectElement;
+showSelectedForm(typeSelect?.value);
 
+let filtreMobilePrix: Prix = "prix -";
+
+export let filtreMobileType: Bien = "tous";
+
+export const mobileNavList = document.querySelector(
+  ".mobileNavList"
+) as HTMLUListElement;
+const maisonForm = document.getElementById("maisonForm") as HTMLFormElement;
+const garageForm = document.getElementById("garageForm") as HTMLFormElement;
+const appartementForm = document.getElementById(
+  "appartementForm"
+) as HTMLFormElement;
+const connexionForm = document.getElementById(
+  "connexionForm"
+) as HTMLFormElement;
+const mobileFilterCloseButton = document.querySelector(
+  ".mobile-filter-close-button"
+) as HTMLButtonElement;
+const mobileFilterChoiceButtons = document.querySelectorAll(
+  ".mobile-filter-choice"
+) as NodeListOf<HTMLButtonElement>;
+const headerFiltersButtons = document.querySelectorAll(".headerFilterButton");
+mobileNavList.style.display = "none";
+const mobileMenuButton = document.querySelector(".mobileMenuButton");
+const buttonsToHome = document.querySelectorAll(".buttonsToHome");
+const buttonsToCreate = document.querySelectorAll(".buttonsToCreate");
+const buttonToConnexion = document.querySelectorAll(".buttonsToConnexion");
 const mobileFilterTrigger = document.querySelector(
   ".mobile-trigger"
 ) as HTMLButtonElement;
 const filtersDialog = document.querySelector(
   ".filters-dialog"
 ) as HTMLDivElement;
-filtersDialog.style.display = "none";
-mobileFilterTrigger.addEventListener("click", () => {
-  // console.log("working");
-
-  if (filtersDialog) {
-    if (filtersDialog.style.display === "none") {
-      filtersDialog.style.display = "flex";
-    } else {
-      filtersDialog.style.display = "none";
-    }
-  }
-});
-
 const priceButtons = document.querySelectorAll(
   ".price-filter"
 ) as NodeListOf<HTMLButtonElement>;
-// console.log(priceButtons);
+
+filtersDialog.style.display = "none";
+
+mobileMenuButton?.addEventListener("click", () => {
+  handleMobileMenu();
+});
+
+typeSelect.addEventListener("change", () => {
+  handleTypeChange();
+});
+
+buttonsToHome.forEach((button) => {
+  navigateToSectionOnClick(button, "home");
+});
+buttonsToCreate.forEach((button) => {
+  navigateToSectionOnClick(button, "create");
+});
+buttonToConnexion.forEach((button) => {
+  navigateToSectionOnClick(button, "connection");
+});
+mobileFilterTrigger.addEventListener("click", () => {
+  toggleFilterDialog(filtersDialog);
+});
+
 priceButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const priceFilter = button.textContent?.toLowerCase() as Prix;
-    // console.log(priceFilter);
     if (priceFilter) filtreMobilePrix = priceFilter;
     injectListing(getListingByFilter(filtreMobileType, filtreMobilePrix));
     updateCategoryStyle();
   });
 });
 
-const mobileFilterCloseButton = document.querySelector(
-  ".mobile-filter-close-button"
-) as HTMLButtonElement;
-
-const mobileFilterChoiceButtons = document.querySelectorAll(
-  ".mobile-filter-choice"
-) as NodeListOf<HTMLButtonElement>;
-
 mobileFilterCloseButton.addEventListener("click", () => {
-  // console.log("working");
   filtersDialog.style.display = "none";
 });
 
-type Bien = "tous" | "maisons" | "appartements" | "garages";
-type Prix = "prix -" | "prix +";
-let filtreMobilePrix: Prix = "prix -";
-let filtreMobileType: Bien = "tous";
-// Function to update the style of category buttons
-function updateCategoryStyle() {
-  const buttons = document.querySelectorAll(
-    ".mainNav button"
-  ) as NodeListOf<HTMLButtonElement>; // Select all category buttons
-  if (buttons) {
-    buttons.forEach((button) => {
-      if (button.textContent) {
-        if (button.textContent.toLowerCase() === filtreMobileType) {
-          button.style.fontWeight = "500";
-        } else {
-          if (button.textContent.toLowerCase() === "tous") {
-            button.style.fontWeight = "500";
-          }
-          button.style.fontWeight = "300";
-        }
-      }
-    });
-  }
-}
-
-const headerFiltersButtons = document.querySelectorAll(".headerFilterButton");
 headerFiltersButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const filtre = button.textContent?.toLowerCase();
-    // console.log(filtre);
     switch (filtre) {
       case "maisons":
         filtreMobileType = "maisons";
@@ -100,7 +129,6 @@ headerFiltersButtons.forEach((button) => {
         filtreMobileType = "tous";
         break;
     }
-    // console.log(filtreMobileType);
     const filteredListing = getListingByFilter(
       filtreMobileType,
       filtreMobilePrix
@@ -113,7 +141,6 @@ headerFiltersButtons.forEach((button) => {
 mobileFilterChoiceButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const filtre = button.textContent?.toLowerCase();
-    // console.log(filtre);
     switch (filtre) {
       case "maisons":
         filtreMobileType = "maisons";
@@ -131,215 +158,33 @@ mobileFilterChoiceButtons.forEach((button) => {
         filtreMobilePrix = "prix +";
         break;
       default:
-        filtreMobileType = "tous"; // Si le filtre sélectionné n'est pas spécifié, par défaut, sélectionnez "tous"
+        filtreMobileType = "tous";
         break;
     }
-    // console.log(filtreMobilePrix, filtreMobileType);
 
     const filteredListing = getListingByFilter(
       filtreMobileType,
       filtreMobilePrix
-    ); // Utiliser le filtre sélectionné pour récupérer les annonces
-    injectListing(filteredListing); // Injecter les annonces filtrées dans la page
+    );
+    injectListing(filteredListing);
     filtersDialog.style.display = "none";
   });
 });
 
-// Fonction pour récupérer les annonces en fonction du filtre sélectionné
-function getListingByFilter(bienFilter: Bien, prixFilter: Prix): TousBiens[] {
-  let data: TousBiens[] = [];
-  switch (bienFilter) {
-    case "maisons":
-      data = JSON.parse(localStorage.getItem("maisons") || "[]");
-      break;
-    case "appartements":
-      data = JSON.parse(localStorage.getItem("appartements") || "[]");
-      break;
-    case "garages":
-      data = JSON.parse(localStorage.getItem("garages") || "[]");
-      break;
-    case "tous":
-      data = getAllListings(); // Récupérer toutes les annonces
-      break;
-    default:
-      data = getAllListings(); // Par défaut, récupérer toutes les annonces
-      break;
-  }
-  if (prixFilter === "prix -") {
-    data = data.sort((a, b) => a.prix - b.prix); // Tri des annonces par prix croissant
+connexionForm?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const clientCredentials = getClientCredentials(connexionForm);
+  const authResponse = handleConnexionSubmission(
+    clientCredentials,
+    credentials
+  );
+  if (authResponse === true) {
+    authenticated = true;
+    navigateSection("admin");
   } else {
-    data = data.sort((a, b) => b.prix - a.prix); // Tri des annonces par prix décroissant
+    alert("Identifiants incorrects.");
   }
-  return data;
-}
-
-// Fonction pour récupérer toutes les annonces
-function getAllListings(): TousBiens[] {
-  const maisons = JSON.parse(localStorage.getItem("maisons") || "[]");
-  const appartements = JSON.parse(localStorage.getItem("appartements") || "[]");
-  const garages = JSON.parse(localStorage.getItem("garages") || "[]");
-  return [...maisons, ...appartements, ...garages];
-}
-
-window.onload = () => {
-  injectListing(getAllListings());
-};
-
-function injectListing<T extends BienImmobilierInterface>(listings: T[]) {
-  // console.log(listings);
-
-  const annonceContainer = document.querySelector(".annonces");
-  if (annonceContainer) annonceContainer.innerHTML = "";
-
-  if (listings.length === 0) {
-    // console.log("aucune annonce pour le moment");
-    const paragraph = document.createElement("p");
-    paragraph.textContent = "Aucun annonce pour le moment";
-    const button = document.createElement("button");
-    button.textContent = "ajouter une annonce";
-    button.style.padding = "0.3rem 0.5rem";
-    button.style.backgroundColor = "var(--eerie-black)";
-    button.style.color = "var(--ghost-gray)";
-    button.style.borderRadius = "5px";
-    button.style.border = "none";
-    button.addEventListener("click", (e) => {
-      e.preventDefault();
-      navigateSection("create");
-    });
-    annonceContainer?.appendChild(paragraph);
-    annonceContainer?.appendChild(button);
-    return;
-  }
-
-  // console.log(annonceContainer);
-  listings.forEach((annonce: any) => {
-    // console.log(annonce);
-
-    const annonceCard = document.createElement("div");
-    annonceCard.classList.add("annonce-card");
-
-    const image = document.createElement("img");
-    image.draggable = false;
-    if (annonce.photoUrl !== "") {
-      image.src = annonce.photoUrl;
-      image.alt = annonce.ville + "annonce image";
-    } else {
-      image.src = "/assets/images/not-found.jpg";
-      image.alt = "image not found picture";
-    }
-
-    const detailsContainer = document.createElement("div");
-
-    const location = document.createElement("p");
-    location.textContent = `${annonce.ville}, ${annonce.pays}`;
-    const type = document.createElement("p");
-    type.textContent = annonce.type;
-    const prestataire = document.createElement("p");
-    prestataire.textContent = annonce.prestataire;
-    const dates = document.createElement("p");
-    dates.textContent = annonce.duree;
-    const price = document.createElement("p");
-    const bold = document.createElement("span");
-    bold.classList.add("bold");
-    bold.textContent = `${annonce.prix}€`;
-    price.appendChild(bold);
-    price.innerHTML += " par jour";
-
-    detailsContainer.appendChild(location);
-    detailsContainer.appendChild(type);
-    detailsContainer.appendChild(prestataire);
-    detailsContainer.appendChild(dates);
-    detailsContainer.appendChild(price);
-
-    // Ajouter du contenu spécifique en fonction du type d'annonce
-    if ("etages" in annonce) {
-      const maison = annonce as unknown as MaisonInterface;
-      const detailsDiv = document.createElement("div");
-      detailsDiv.classList.add("annonce-card-details");
-
-      const etagesDiv = document.createElement("div");
-      etagesDiv.classList.add("annonce-card-details-group");
-      const etagesIcon = document.createElement("img");
-      etagesIcon.src = "/assets/stairs.png";
-      etagesIcon.alt = "stairs icon";
-      etagesIcon.style.width = "20px";
-      const etages = document.createElement("p");
-      etages.textContent = `${maison.etages}`;
-
-      const jardinDiv = document.createElement("div");
-      jardinDiv.classList.add("annonce-card-details-group");
-      const jardinIcon = document.createElement("img");
-      jardinIcon.src = "/assets/tree.png";
-      jardinIcon.alt = "garden icon";
-      jardinIcon.style.width = "20px";
-      const jardin = document.createElement("p");
-      jardin.textContent = `${maison.jardin ? "✅" : "❌"}`;
-
-      const garageDiv = document.createElement("div");
-      garageDiv.classList.add("annonce-card-details-group");
-      const garageIcon = document.createElement("img");
-      garageIcon.src = "/assets/private-garage.png";
-      garageIcon.alt = "garage icon";
-      garageIcon.style.width = "20px";
-      const garage = document.createElement("p");
-      garage.textContent = `${maison.garage ? "✅" : "❌"}`;
-
-      etages.classList.add("secondary-fields");
-      jardin.classList.add("secondary-fields");
-      garage.classList.add("secondary-fields");
-      etagesDiv.appendChild(etagesIcon);
-      etagesDiv.appendChild(etages);
-      jardinDiv.appendChild(jardinIcon);
-      jardinDiv.appendChild(jardin);
-      garageDiv.appendChild(garageIcon);
-      garageDiv.appendChild(garage);
-      detailsDiv.appendChild(etagesDiv);
-      detailsDiv.appendChild(jardinDiv);
-      detailsDiv.appendChild(garageDiv);
-      detailsContainer.appendChild(detailsDiv);
-    } else if ("etage" in annonce) {
-      const appartement = annonce as unknown as AppartementInterface;
-      const etage = document.createElement("p");
-      etage.textContent = `Étage: ${appartement.etage}`;
-      const balcon = document.createElement("p");
-      balcon.textContent = `Balcon: ${appartement.balcon ? "✅" : "❌"}`;
-      const ascenseur = document.createElement("p");
-      ascenseur.textContent = `Ascenseur: ${
-        appartement.ascenseur ? "✅" : "❌"
-      }`;
-      etage.classList.add("secondary-fields");
-      balcon.classList.add("secondary-fields");
-      ascenseur.classList.add("secondary-fields");
-      detailsContainer.appendChild(etage);
-      detailsContainer.appendChild(balcon);
-      detailsContainer.appendChild(ascenseur);
-    } else if ("places" in annonce) {
-      const garage = annonce as unknown as GarageInterface;
-      const places = document.createElement("p");
-      places.textContent = `Places: ${garage.places}`;
-      const outils = document.createElement("p");
-      outils.textContent = `Outils: ${garage.outils ? "✅" : "❌"}`;
-      const ouverture = document.createElement("p");
-      ouverture.textContent = `Ouverture: ${garage.ouverture}`;
-      places.classList.add("secondary-fields");
-      outils.classList.add("secondary-fields");
-      ouverture.classList.add("secondary-fields");
-      detailsContainer.appendChild(places);
-      detailsContainer.appendChild(outils);
-      detailsContainer.appendChild(ouverture);
-    }
-
-    annonceCard.appendChild(image);
-    annonceCard.appendChild(detailsContainer);
-    if (annonceContainer) annonceContainer.appendChild(annonceCard);
-  });
-}
-
-const maisonForm = document.getElementById("maisonForm") as HTMLFormElement;
-const garageForm = document.getElementById("garageForm") as HTMLFormElement;
-const appartementForm = document.getElementById(
-  "appartementForm"
-) as HTMLFormElement;
+});
 
 garageForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -352,7 +197,6 @@ garageForm.addEventListener("submit", (e) => {
   const places = formData.get("places");
   const outils = formData.get("outils") === "on";
   const ouverture = formData.get("ouverture")?.toString();
-  // console.log(prestataire);
 
   const photoInput = document.getElementById("garagePhoto") as HTMLInputElement;
   let file;
@@ -381,17 +225,15 @@ garageForm.addEventListener("submit", (e) => {
     reader.onload = (event) => {
       if (event.target) {
         photoUrl = event.target.result as string;
-        newGarageData.photoUrl = photoUrl; // Update photoUrl if file is found
+        newGarageData.photoUrl = photoUrl;
       }
       const newGarage = new Garage(newGarageData);
-      // console.log(newGarage);
       saveObjectToLocalStorage("garages", newGarageData);
     };
 
     reader.readAsDataURL(file);
   } else {
     const newGarage = new Garage(newGarageData);
-    // console.log(newGarage);
     saveObjectToLocalStorage("garages", newGarageData);
   }
 });
@@ -436,17 +278,15 @@ appartementForm?.addEventListener("submit", (e) => {
     reader.onload = (event) => {
       if (event.target) {
         photoUrl = event.target.result as string;
-        newAppartementData.photoUrl = photoUrl; // Update photoUrl if file is found
+        newAppartementData.photoUrl = photoUrl;
       }
       const newAppartement = new Appartement(newAppartementData);
-      // console.log(newAppartement);
       saveObjectToLocalStorage("appartements", newAppartementData);
     };
 
     reader.readAsDataURL(file);
   } else {
     const newAppartement = new Appartement(newAppartementData);
-    // console.log(newAppartement);
     saveObjectToLocalStorage("appartements", newAppartementData);
   }
 });
@@ -462,10 +302,9 @@ maisonForm?.addEventListener("submit", (e) => {
   const duree = formData.get("duree")?.toString();
   const prix = formData.get("prix");
   const etages = formData.get("etages");
-  const jardin = formData.get("jardin") === "on"; // Convert "on" to boolean
-  const garage = formData.get("garage") === "on"; // Convert "on" to boolean
+  const jardin = formData.get("jardin") === "on";
+  const garage = formData.get("garage") === "on";
 
-  // Read the uploaded file
   const photoInput = document.getElementById("maisonPhoto") as HTMLInputElement;
   let file;
   if (photoInput.files) {
@@ -478,11 +317,11 @@ maisonForm?.addEventListener("submit", (e) => {
     prestataire: prestataire || "",
     duree: duree || "",
     prix: Number(prix),
-    photoUrl: "", // Initialize with empty string
+    photoUrl: "",
     etages: etages ? Number(etages) : 1,
     jardin,
     garage,
-    type: "maison", // Ensure that the type matches the one defined in MaisonInterface
+    type: "maison",
   };
 
   let photoUrl: string | null = null;
@@ -492,45 +331,15 @@ maisonForm?.addEventListener("submit", (e) => {
     reader.onload = (event) => {
       if (event.target) {
         photoUrl = event.target.result as string;
-        newMaisonData.photoUrl = photoUrl; // Update photoUrl if file is found
+        newMaisonData.photoUrl = photoUrl;
       }
       const newMaison = new Maison(newMaisonData);
-      // console.log(newMaison);
       saveObjectToLocalStorage("maisons", newMaisonData);
     };
 
     reader.readAsDataURL(file);
   } else {
     const newMaison = new Maison(newMaisonData);
-    // console.log(newMaison);
     saveObjectToLocalStorage("maisons", newMaisonData);
   }
 });
-
-function saveObjectToLocalStorage(
-  localStorageItemName: string,
-  newData: MaisonInterface | AppartementInterface | GarageInterface
-) {
-  let array: any[] = JSON.parse(
-    localStorage.getItem(localStorageItemName) || "[]"
-  );
-
-  array.push(newData);
-
-  localStorage.setItem(localStorageItemName, JSON.stringify(array));
-
-  navigateSection("home");
-  window.location.reload();
-}
-
-function navigateSection(section: string) {
-  document.querySelectorAll(".page").forEach((page: any) => {
-    page.style.display = "none"; // Hide all pages
-  });
-
-  const pageId = section + "Page";
-  const page = document.getElementById(pageId);
-  if (page) {
-    page.style.display = "block"; // Show the selected page
-  }
-}

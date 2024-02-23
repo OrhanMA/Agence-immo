@@ -19,23 +19,16 @@
   <body>
     <header class="header">
       <nav>
-        <button
-          class="airbnbButton"
-          type="button"
-          onclick="navigateSection('home')"
-        >
+        <button class="airbnbButton" type="button" class="buttonsToHome">
           <img
+            class="buttonsToHome"
             src="/public/assets/logo.svg"
             style="width: 25px"
             alt="Airbnb logo"
           />
-          <p class="text-lg">Airbnb</p>
+          <p class="text-lg buttonsToHome">Airbnb</p>
         </button>
-        <button
-          class="mobileMenuButton"
-          type="button"
-          onclick="handleMobileMenu()"
-        >
+        <button class="mobileMenuButton" type="button">
           <img
             src="/public/assets/hamb-menu.svg"
             style="width: 35px"
@@ -49,29 +42,28 @@
           <button class="headerFilterButton">Garages</button>
         </div>
         <div class="actionsNav">
-          <button onclick="navigateSection('create')">Ajouter</button>
-          <button onclick="navigateSection('connection')">Admin</button>
+          <button class="buttonsToCreate">Ajouter</button>
+          <button class="buttonsToConnexion">Admin</button>
         </div>
       </nav>
     </header>
     <ul class="mobileNavList">
       <li>
-        <a href="#" onclick="handleMenuItemClick('create')"
+        <a class="buttonsToCreate" href="#" class="buttonsToCreate"
           >Ajouter une annonce</a
         >
       </li>
       <li>
-        <a href="#" onclick="handleMenuItemClick('connection')"
-          >Espace administrateur</a
-        >
+        <a href="#" class="buttonsToConnexion">Espace administrateur</a>
       </li>
       <div>
         <img
+          class="buttonsToHome"
           src="/public/assets/logo.svg"
           style="width: 30px"
           alt="Airbnb logo"
         />
-        <a href="#" onclick="handleMenuItemClick('home');">Airbnb</a>
+        <a href="#" class="buttonsToHome">Airbnb</a>
       </div>
     </ul>
     <div id="app">
@@ -99,12 +91,50 @@
           <div class="annonces"></div>
         </div>
       </div>
+      <div id="connectionPage" class="page" style="display: none">
+        <div class="connection-container">
+          <div class="form-container">
+            <h1>Connexion</h1>
+            <p>
+              Remplissez le formulaire pour vous accéder à votre espace
+              administrateur et gérer les annonces.
+            </p>
+            <form id="connexionForm">
+              <div class="field-container">
+                <label for="identifiant">Identifiant</label>
+                <input
+                  required
+                  type="text"
+                  name="identifiant"
+                  id="identifiant"
+                />
+              </div>
+              <div class="field-container">
+                <label for="password">Mot de passe</label>
+                <input required type="password" name="password" id="password" />
+              </div>
+              <button type="submit">Connexion</button>
+            </form>
+          </div>
+          <div class="connexion-logo-div">
+            <div class="logo-div-container">
+              <img
+                class="buttonsToHome"
+                src="/public/assets/logo.svg"
+                alt="Airbnb logo"
+              />
+              <p class="buttonsToHome">Airbnb</p>
+            </div>
+          </div>
+        </div>
+        <!-- Content for the connection page goes here -->
+      </div>
       <div id="createPage" class="page" style="display: none">
         <div class="create-container">
           <h1>Ajouter une annonce</h1>
           <p>Remplissez le formulaire pour ajouter une nouvelle annonce.</p>
           <p>Quel type de bien souhaitez-vous ajouter?</p>
-          <select name="type" id="typeSelect" onchange="handleTypeChange()">
+          <select name="type" id="typeSelect">
             <option value="maison">maison</option>
             <option value="appartement">appartement</option>
             <option value="garage">garage</option>
@@ -359,68 +389,13 @@
         </div>
         <!-- Content for the create page goes here -->
       </div>
-      <div id="connectionPage" class="page" style="display: none">
-        <!-- Content for the connection page goes here -->
-      </div>
+
       <div id="adminPage" class="page" style="display: none">
         <!-- Content for the admin page goes here -->
+        <div class="admin-container">
+          <h1>Admin page</h1>
+        </div>
       </div>
     </div>
-    <script>
-      "use strict";
-
-      const app = document.getElementById("app");
-      const typeSelect = document.querySelector("#typeSelect");
-      const createContainer = document.querySelector(".create-container");
-      const createForms = createContainer.querySelectorAll("form");
-
-      navigateSection("home");
-      showSelectedForm(typeSelect.value);
-      const mobileNavList = document.querySelector(".mobileNavList");
-      // console.log(mobileNavList);
-      mobileNavList.style.display = "none";
-
-      let selectedCategory = "";
-
-      function handleMenuItemClick(section) {
-        navigateSection(section);
-        handleMobileMenu();
-      }
-
-      function handleMobileMenu() {
-        if (mobileNavList.style.display === "none") {
-          mobileNavList.style.display = "flex";
-        } else {
-          mobileNavList.style.display = "none";
-        }
-      }
-
-      function navigateSection(section) {
-        document.querySelectorAll(".page").forEach((page) => {
-          page.style.display = "none"; // Hide all pages
-        });
-
-        const pageId = section + "Page";
-        const page = document.getElementById(pageId);
-        if (page) {
-          page.style.display = "block"; // Show the selected page
-        }
-      }
-
-      function handleTypeChange() {
-        showSelectedForm(typeSelect.value);
-      }
-
-      function showSelectedForm(type) {
-        const selectedForm = document.querySelector(`#${type}Form`);
-        createForms.forEach((form) => {
-          if (form === selectedForm) {
-            form.style.display = "flex";
-          } else {
-            form.style.display = "none";
-          }
-        });
-      }
-    </script>
   </body>
 </html>
