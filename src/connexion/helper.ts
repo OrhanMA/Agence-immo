@@ -3,7 +3,7 @@ import { Credentials } from "../types";
 export function handleConnexionSubmission(
   clientCredentials: Credentials,
   serverCredentials: Credentials
-) {
+): boolean {
   if (
     serverCredentials.identifiant === clientCredentials.identifiant &&
     serverCredentials.password === clientCredentials.password

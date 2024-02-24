@@ -23,7 +23,16 @@ export class BienImmobilier {
     this.#prix = prix;
     this.#photoUrl = photoUrl;
   }
-
+  toJSON() {
+    return {
+      ville: this.#ville,
+      pays: this.#pays,
+      prestataire: this.#prestataire,
+      duree: this.#duree,
+      prix: this.#prix,
+      photoUrl: this.#photoUrl,
+    };
+  }
   get pays(): string {
     return this.#pays;
   }

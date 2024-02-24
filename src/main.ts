@@ -186,14 +186,21 @@ connexionForm?.addEventListener("submit", (e) => {
   }
 });
 
+function getCommonFields(formData: FormData) {
+  const ville = formData.get("ville")?.toString() || "";
+  const pays = formData.get("pays")?.toString() || "";
+  const prestataire = formData.get("prestataire")?.toString() || "";
+  const duree = formData.get("duree")?.toString() || "";
+  const prix = Number(formData.get("prix"));
+
+  return { ville, pays, prestataire, duree, prix };
+}
+
 garageForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(garageForm);
-  const ville = formData.get("ville")?.toString();
-  const pays = formData.get("pays")?.toString();
-  const prestataire = formData.get("prestataire")?.toString();
-  const duree = formData.get("duree")?.toString();
-  const prix = formData.get("prix");
+  const { ville, pays, prestataire, duree, prix } = getCommonFields(formData);
+
   const places = formData.get("places");
   const outils = formData.get("outils") === "on";
   const ouverture = formData.get("ouverture")?.toString();
@@ -204,19 +211,15 @@ garageForm.addEventListener("submit", (e) => {
     file = photoInput.files[0];
   }
 
-  const newGarageData: GarageInterface = {
-    ville: ville || "",
-    pays: pays || "",
-    prestataire: prestataire || "",
-    duree: duree || "",
-    prix: Number(prix),
+  const newGarage = new Garage({
+    ...{ ville, pays, prestataire, duree, prix },
     photoUrl: "",
     places: places ? Number(places) : 1,
     outils,
     ouverture:
       ouverture === "code" || ouverture === "clef" ? ouverture : "code",
     type: "garage",
-  };
+  });
 
   let photoUrl: string | null = null;
   if (file) {
@@ -225,27 +228,22 @@ garageForm.addEventListener("submit", (e) => {
     reader.onload = (event) => {
       if (event.target) {
         photoUrl = event.target.result as string;
-        newGarageData.photoUrl = photoUrl;
+        newGarage.photoUrl = photoUrl;
       }
-      const newGarage = new Garage(newGarageData);
-      saveObjectToLocalStorage("garages", newGarageData);
+      saveObjectToLocalStorage("garages", newGarage);
     };
 
     reader.readAsDataURL(file);
   } else {
-    const newGarage = new Garage(newGarageData);
-    saveObjectToLocalStorage("garages", newGarageData);
+    saveObjectToLocalStorage("garages", newGarage);
   }
 });
 
 appartementForm?.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(appartementForm);
-  const ville = formData.get("ville")?.toString();
-  const pays = formData.get("pays")?.toString();
-  const prestataire = formData.get("prestataire")?.toString();
-  const duree = formData.get("duree")?.toString();
-  const prix = formData.get("prix");
+  const { ville, pays, prestataire, duree, prix } = getCommonFields(formData);
+
   const etage = formData.get("etage");
   const balcon = formData.get("balcon") === "on";
   const ascenseur = formData.get("ascenseur") === "on";
@@ -258,18 +256,14 @@ appartementForm?.addEventListener("submit", (e) => {
     file = photoInput.files[0];
   }
 
-  const newAppartementData: AppartementInterface = {
-    ville: ville || "",
-    pays: pays || "",
-    prestataire: prestataire || "",
-    duree: duree || "",
-    prix: Number(prix),
+  const newAppartement = new Appartement({
+    ...{ ville, pays, prestataire, duree, prix },
     photoUrl: "",
     etage: etage ? Number(etage) : 1,
     balcon,
     ascenseur,
     type: "appartement",
-  };
+  });
 
   let photoUrl: string | null = null;
   if (file) {
@@ -278,29 +272,22 @@ appartementForm?.addEventListener("submit", (e) => {
     reader.onload = (event) => {
       if (event.target) {
         photoUrl = event.target.result as string;
-        newAppartementData.photoUrl = photoUrl;
+        newAppartement.photoUrl = photoUrl;
       }
-      const newAppartement = new Appartement(newAppartementData);
-      saveObjectToLocalStorage("appartements", newAppartementData);
+      saveObjectToLocalStorage("appartements", newAppartement);
     };
 
     reader.readAsDataURL(file);
   } else {
-    const newAppartement = new Appartement(newAppartementData);
-    saveObjectToLocalStorage("appartements", newAppartementData);
+    saveObjectToLocalStorage("appartements", newAppartement);
   }
 });
 
 maisonForm?.addEventListener("submit", (e) => {
   e.preventDefault();
-
   const formData = new FormData(maisonForm);
+  const { ville, pays, prestataire, duree, prix } = getCommonFields(formData);
 
-  const ville = formData.get("ville")?.toString();
-  const pays = formData.get("pays")?.toString();
-  const prestataire = formData.get("prestataire")?.toString();
-  const duree = formData.get("duree")?.toString();
-  const prix = formData.get("prix");
   const etages = formData.get("etages");
   const jardin = formData.get("jardin") === "on";
   const garage = formData.get("garage") === "on";
@@ -311,18 +298,14 @@ maisonForm?.addEventListener("submit", (e) => {
     file = photoInput.files[0];
   }
 
-  const newMaisonData: MaisonInterface = {
-    ville: ville || "",
-    pays: pays || "",
-    prestataire: prestataire || "",
-    duree: duree || "",
-    prix: Number(prix),
+  const newMaison = new Maison({
+    ...{ ville, pays, prestataire, duree, prix },
     photoUrl: "",
     etages: etages ? Number(etages) : 1,
     jardin,
     garage,
     type: "maison",
-  };
+  });
 
   let photoUrl: string | null = null;
   if (file) {
@@ -331,15 +314,13 @@ maisonForm?.addEventListener("submit", (e) => {
     reader.onload = (event) => {
       if (event.target) {
         photoUrl = event.target.result as string;
-        newMaisonData.photoUrl = photoUrl;
+        newMaison.photoUrl = photoUrl;
       }
-      const newMaison = new Maison(newMaisonData);
-      saveObjectToLocalStorage("maisons", newMaisonData);
+      saveObjectToLocalStorage("maisons", newMaison);
     };
 
     reader.readAsDataURL(file);
   } else {
-    const newMaison = new Maison(newMaisonData);
-    saveObjectToLocalStorage("maisons", newMaisonData);
+    saveObjectToLocalStorage("maisons", newMaison);
   }
 });

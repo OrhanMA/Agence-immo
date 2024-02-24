@@ -31,6 +31,16 @@ export class Appartement extends BienImmobilier {
     this.#ascenseur = ascenseur;
   }
 
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      etage: this.#etage,
+      balcon: this.#balcon,
+      ascenseur: this.#ascenseur,
+      type: this.#type,
+    };
+  }
+
   get type() {
     return this.#type;
   }

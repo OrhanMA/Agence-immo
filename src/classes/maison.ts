@@ -23,6 +23,16 @@ export class Maison extends BienImmobilier {
     this.#garage = garage;
   }
 
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      etages: this.#etages,
+      jardin: this.#jardin,
+      garage: this.#garage,
+      type: this.#type,
+    };
+  }
+
   get type() {
     return this.#type;
   }

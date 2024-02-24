@@ -22,6 +22,16 @@ export class Garage extends BienImmobilier {
     this.#ouverture = ouverture;
   }
 
+  toJSON() {
+    return {
+      ...super.toJSON(),
+      places: this.#places,
+      outils: this.#outils,
+      ouverture: this.#ouverture,
+      type: this.#type,
+    };
+  }
+
   get type() {
     return this.#type;
   }
