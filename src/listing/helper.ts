@@ -38,3 +38,13 @@ export function getAllListings(): TousBiens[] {
   const garages = JSON.parse(localStorage.getItem("garages") || "[]");
   return [...maisons, ...appartements, ...garages];
 }
+
+export function getCommonFields(formData: FormData) {
+  const ville = formData.get("ville")?.toString() || "";
+  const pays = formData.get("pays")?.toString() || "";
+  const prestataire = formData.get("prestataire")?.toString() || "";
+  const duree = formData.get("duree")?.toString() || "";
+  const prix = Number(formData.get("prix"));
+
+  return { ville, pays, prestataire, duree, prix };
+}
