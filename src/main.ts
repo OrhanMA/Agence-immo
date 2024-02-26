@@ -13,7 +13,7 @@ export const createForms = createContainer?.querySelectorAll("form");
 
 window.onload = () => {
   domHelper.injectListing(listingHelper.getAllListings());
-  domHelper.navigateSection("admin");
+  domHelper.navigateSection("home");
 };
 export const typeSelect = document.querySelector(
   "#typeSelect"
