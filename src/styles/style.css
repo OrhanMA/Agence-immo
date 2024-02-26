@@ -444,6 +444,33 @@
   cursor: pointer;
 }
 
+.credentialsPopup {
+  position: absolute;
+  background-color: var(--back-gray);
+  color: var(--eerie-black);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.credentialsPopup > button {
+  background: var(--eerie-black);
+  color: var(--back-gray);
+  padding: 0.5rem 1rem;
+  font-size: 1.125rem;
+  border: none;
+  border-radius: 5px;
+}
+
+.credentialsPopup > p {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
 @media screen and (min-width: 550px) {
   .annonces {
     grid-template-columns: repeat(2, 1fr);

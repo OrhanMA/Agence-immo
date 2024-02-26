@@ -7,7 +7,6 @@ import * as storageHelper from "./storage/helper.ts";
 import * as listingHelper from "./listing/helper.ts";
 import * as domHelper from "./dom/helper.ts";
 import * as connexionHelper from "./connexion/helper.ts";
-
 export let authenticated = false;
 const createContainer = document.querySelector(".create-container");
 export const createForms = createContainer?.querySelectorAll("form");
@@ -56,6 +55,13 @@ const filtersDialog = document.querySelector(
 const priceButtons = document.querySelectorAll(
   ".price-filter"
 ) as NodeListOf<HTMLButtonElement>;
+const credentialsPopupDiv = document.querySelector(
+  ".credentialsPopup"
+) as HTMLDivElement;
+credentialsPopupDiv.style.display = "none";
+const retryLoginButton = credentialsPopupDiv.querySelector(
+  ".retryLoginButton"
+) as HTMLButtonElement;
 
 filtersDialog.style.display = "none";
 
@@ -165,7 +171,12 @@ connexionForm?.addEventListener("submit", (e) => {
     authenticated = true;
     domHelper.navigateSection("admin");
   } else {
-    alert("Identifiants incorrects.");
+    connexionHelper.handleLoginError(
+      credentialsPopupDiv,
+      retryLoginButton,
+      domHelper,
+      connexionForm
+    );
   }
 });
 

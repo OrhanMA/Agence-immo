@@ -24,3 +24,23 @@ export function getClientCredentials(form: HTMLFormElement) {
   };
   return clientCredentials;
 }
+
+export function handleLoginError(
+  credentialsPopupDiv: HTMLDivElement,
+  retryLoginButton: HTMLButtonElement,
+  domHelper: any,
+  connexionForm: HTMLFormElement
+) {
+  credentialsPopupDiv.style.display = "flex";
+  retryLoginButton.addEventListener("click", () => {
+    domHelper.navigateSection("connection");
+    credentialsPopupDiv.style.display = "none";
+    const connexionFormInputs = connexionForm.querySelectorAll(
+      "input"
+    ) as NodeListOf<HTMLInputElement>;
+    connexionFormInputs.forEach((input) => {
+      input.value = "";
+    });
+    connexionFormInputs[0].focus();
+  });
+}
