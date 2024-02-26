@@ -84,6 +84,7 @@
   list-style: none;
   padding-top: 1rem;
   gap: 1rem;
+  z-index: 100;
 }
 
 .mobileNavList li {
