@@ -20,8 +20,6 @@ const maison = new Maison({
   type: "maison",
 });
 
-// console.log(maison);
-
 const appartement = new Appartement({
   ville: " super appartement",
   pays: "France",
@@ -35,8 +33,6 @@ const appartement = new Appartement({
   type: "appartement",
 });
 
-// console.log(appartement);
-
 const garage = new Garage({
   ville: "Paris",
   pays: "France",
@@ -49,8 +45,6 @@ const garage = new Garage({
   ouverture: "code",
   type: "garage",
 });
-
-// console.log(garage);
 
 export const fakeAnnoncesMaisons = [
   {

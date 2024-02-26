@@ -179,6 +179,7 @@ connexionForm?.addEventListener("submit", (e) => {
       connexionForm
     );
   }
+  connexionForm.reset();
 });
 
 garageForm.addEventListener("submit", (e) => {
@@ -202,6 +203,7 @@ garageForm.addEventListener("submit", (e) => {
   });
 
   storageHelper.handlePhotoAndSave("garagePhoto", newGarage, "garages");
+  garageForm.reset();
 });
 
 appartementForm?.addEventListener("submit", (e) => {
@@ -228,6 +230,7 @@ appartementForm?.addEventListener("submit", (e) => {
     newAppartement,
     "appartements"
   );
+  appartementForm.reset();
 });
 
 maisonForm?.addEventListener("submit", (e) => {
@@ -250,4 +253,5 @@ maisonForm?.addEventListener("submit", (e) => {
   });
 
   storageHelper.handlePhotoAndSave("maisonPhoto", newMaison, "maisons");
+  maisonForm.reset();
 });

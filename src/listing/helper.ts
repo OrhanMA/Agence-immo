@@ -57,7 +57,6 @@ export function findListing(stringifiedListing: string): TousBiens | null {
   const searchResult = localStorageListings.find(
     (listing) => JSON.stringify(listing) === stringifiedListing
   );
-  // console.log(searchResult);
   if (searchResult === null || searchResult === undefined) {
     return null;
   } else {
@@ -73,15 +72,9 @@ function getListingByType(type: string) {
 
 export function deleteListing(listing: TousBiens) {
   const listingType = listing.type;
-  console.log(listingType);
-
   const listingTypeArray: TousBiens[] = getListingByType(listingType);
-  console.log(listingTypeArray);
-
   const newTypeArray = listingTypeArray.filter(
     (annonce) => JSON.stringify(annonce) !== JSON.stringify(listing)
   );
-  console.log(newTypeArray);
-
   localStorage.setItem(listingType + "s", JSON.stringify(newTypeArray));
 }

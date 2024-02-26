@@ -28,13 +28,10 @@ export function handleTypeChange() {
 export function injectListing<T extends BienImmobilierInterface>(
   listings: T[]
 ) {
-  // console.log(listings);
-
   const annonceContainer = document.querySelector(".annonces");
   if (annonceContainer) annonceContainer.innerHTML = "";
 
   if (listings.length === 0) {
-    // console.log("aucune annonce pour le moment");
     const paragraph = document.createElement("p");
     paragraph.textContent = "Aucun annonce pour le moment";
     const button = document.createElement("button");
@@ -53,10 +50,7 @@ export function injectListing<T extends BienImmobilierInterface>(
     return;
   }
 
-  // console.log(annonceContainer);
   listings.forEach((annonce: any) => {
-    // console.log(annonce);
-
     const annonceCard = document.createElement("div");
     annonceCard.classList.add("annonce-card");
 
@@ -178,9 +172,7 @@ export function injectListing<T extends BienImmobilierInterface>(
 }
 
 export function navigateSection(section: string) {
-  console.log("Navigating to section:", section);
   if (section === "connection" && authenticated === true) {
-    console.log("Already authenticated. Redirecting to admin page.");
     navigateSection("admin");
     return;
   }
@@ -200,10 +192,8 @@ export function navigateSection(section: string) {
       ".delete-button"
     ) as NodeListOf<HTMLButtonElement>;
 
-    // console.log(deleteButtons);
     deleteButtons.forEach((button) => {
       button.addEventListener("click", () => {
-        // console.log(button.dataset.object);
         const deletePopup = document.querySelector(
           ".delete-popup"
         ) as HTMLDivElement;
@@ -252,6 +242,7 @@ function injectAdminContent(
   });
 }
 
+let listingToEdit;
 function createAnnonceCard(listing: TousBiens) {
   const div = document.createElement("div");
   const annonceImage = document.createElement("img") as HTMLImageElement;

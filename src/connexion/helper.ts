@@ -8,10 +8,8 @@ export function handleConnexionSubmission(
     serverCredentials.identifiant === clientCredentials.identifiant &&
     serverCredentials.password === clientCredentials.password
   ) {
-    // console.log("Correct credentials. Logging in...");
     return true;
   } else {
-    // console.log("Incorrect credentials.");
     return false;
   }
 }

@@ -7,17 +7,11 @@ function saveObjectToLocalStorage(
   localStorageItemName: string,
   newDataObject: Maison | Appartement | Garage
 ) {
-  console.log(newDataObject.pays);
-
   let array: any[] = JSON.parse(
     localStorage.getItem(localStorageItemName) || "[]"
   );
-
   array.push(newDataObject.toJSON());
-  console.log(array);
-
   localStorage.setItem(localStorageItemName, JSON.stringify(array));
-
   navigateSection("home");
   window.location.reload();
 }
