@@ -237,5 +237,6 @@ export function toggleFilterDialog(filtersDialog: HTMLDivElement) {
 export function navigateToSectionOnClick(button: Element, section: string) {
   button.addEventListener("click", () => {
     navigateSection(section);
+    if (mobileNavList.style.display != "none") handleMobileMenu();
   });
 }
