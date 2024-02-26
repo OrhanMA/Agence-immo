@@ -497,14 +497,24 @@
   font-size: 1.2rem;
   text-align: center;
 }
-
+.admin-annonce-card-buttons-container {
+  display: flex;
+  gap: 1rem;
+}
+.edit-button,
 .delete-button {
   padding: 0.3rem 0.5rem;
-  background-color: var(--desctructive);
-  color: var(--back-gray);
   border: none;
   border-radius: 5px;
   margin-top: 0.5rem;
+  color: var(--back-gray);
+}
+
+.edit-button {
+  background-color: var(--eerie-black);
+}
+.delete-button {
+  background-color: var(--desctructive);
 }
 
 @media screen and (min-width: 550px) {

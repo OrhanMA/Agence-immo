@@ -194,6 +194,7 @@ export function navigateSection(section: string) {
     const adminAnnoncesContainer = document.querySelector(
       ".admin-annonces-container"
     ) as HTMLDivElement;
+    adminAnnoncesContainer.innerHTML = "";
     injectAdminContent(listings, adminAnnoncesContainer);
     const deleteButtons = document.querySelectorAll(
       ".delete-button"
@@ -210,6 +211,9 @@ export function navigateSection(section: string) {
         const confirmDeletionButton = document.querySelector(
           ".confirmDeletionButton"
         ) as HTMLButtonElement;
+        const annulationButton = document.querySelector(
+          ".annulationButton"
+        ) as HTMLButtonElement;
         confirmDeletionButton.addEventListener("click", () => {
           deletePopup.style.display = "none";
           const stringifiedListing = button.dataset.object as string;
@@ -219,6 +223,10 @@ export function navigateSection(section: string) {
             if (adminAnnoncesContainer) adminAnnoncesContainer.innerHTML = "";
             navigateSection("admin");
           }
+        });
+        annulationButton.addEventListener("click", () => {
+          deletePopup.style.display = "none";
+          navigateSection("admin");
         });
       });
     });
@@ -271,11 +279,22 @@ function createAnnonceCard(listing: TousBiens) {
 
   const buttonsContainer = document.createElement("div") as HTMLDivElement;
   buttonsContainer.classList.add("admin-annonce-card-buttons-container");
+
+  const editButton = document.createElement("button");
   const deleteButton = document.createElement("button");
+  editButton.textContent = "modifier";
   deleteButton.textContent = "supprimer";
-  deleteButton.dataset.object = JSON.stringify(listing);
+  editButton.classList.add("edit-button");
   deleteButton.classList.add("delete-button");
+  deleteButton.dataset.object = JSON.stringify(listing);
+
+  buttonsContainer.appendChild(editButton);
   buttonsContainer.appendChild(deleteButton);
+
+  editButton.addEventListener("click", () => {
+    navigateSection("edit");
+  });
+
   const elements = [
     annonceImage,
     location,
@@ -348,3 +367,5 @@ export function navigateToSectionOnClick(button: Element, section: string) {
     if (mobileNavList.style.display != "none") handleMobileMenu();
   });
 }
+
+function showEditForm() {}
