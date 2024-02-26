@@ -48,3 +48,40 @@ export function getCommonFields(formData: FormData) {
 
   return { ville, pays, prestataire, duree, prix };
 }
+
+export function findListing(stringifiedListing: string): TousBiens | null {
+  const localStorageListings = getAllListings();
+  // ici je compare les objets avec stringify car les objets dans js ne sont pas des data types primaires et donc ils ne se comparent pas par valeur mais par référence.
+  // https://www.freecodecamp.org/news/javascript-comparison-operators-how-to-compare-objects-for-equality-in-js/
+
+  const searchResult = localStorageListings.find(
+    (listing) => JSON.stringify(listing) === stringifiedListing
+  );
+  // console.log(searchResult);
+  if (searchResult === null || searchResult === undefined) {
+    return null;
+  } else {
+    return searchResult;
+  }
+}
+
+function getListingByType(type: string) {
+  const arrayKey = type + "s";
+  const array = JSON.parse(localStorage.getItem(arrayKey) || "[]");
+  return array;
+}
+
+export function deleteListing(listing: TousBiens) {
+  const listingType = listing.type;
+  console.log(listingType);
+
+  const listingTypeArray: TousBiens[] = getListingByType(listingType);
+  console.log(listingTypeArray);
+
+  const newTypeArray = listingTypeArray.filter(
+    (annonce) => JSON.stringify(annonce) !== JSON.stringify(listing)
+  );
+  console.log(newTypeArray);
+
+  localStorage.setItem(listingType + "s", JSON.stringify(newTypeArray));
+}

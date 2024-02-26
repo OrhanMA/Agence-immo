@@ -13,7 +13,7 @@ export const createForms = createContainer?.querySelectorAll("form");
 
 window.onload = () => {
   domHelper.injectListing(listingHelper.getAllListings());
-  domHelper.navigateSection("home");
+  domHelper.navigateSection("admin");
 };
 export const typeSelect = document.querySelector(
   "#typeSelect"
@@ -62,7 +62,8 @@ credentialsPopupDiv.style.display = "none";
 const retryLoginButton = credentialsPopupDiv.querySelector(
   ".retryLoginButton"
 ) as HTMLButtonElement;
-
+const deletePopup = document.querySelector(".delete-popup") as HTMLDivElement;
+deletePopup.style.display = "none";
 filtersDialog.style.display = "none";
 
 mobileMenuButton?.addEventListener("click", () => {

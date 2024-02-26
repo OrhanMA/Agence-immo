@@ -1,3 +1,4 @@
+import { findListing, getAllListings, deleteListing } from "../listing/helper";
 import {
   createForms,
   authenticated,
@@ -10,6 +11,7 @@ import {
   GarageInterface,
   BienImmobilierInterface,
   MaisonInterface,
+  TousBiens,
 } from "../types";
 export function handleMobileMenu() {
   if (mobileNavList.style.display === "none") {
@@ -186,11 +188,117 @@ export function navigateSection(section: string) {
     page.style.display = "none"; // Hide all pages
   });
 
+  // après que la connexion soit validée, injection et redirection vers admin
+  if (section === "admin") {
+    const listings = getAllListings();
+    const adminAnnoncesContainer = document.querySelector(
+      ".admin-annonces-container"
+    ) as HTMLDivElement;
+    injectAdminContent(listings, adminAnnoncesContainer);
+    const deleteButtons = document.querySelectorAll(
+      ".delete-button"
+    ) as NodeListOf<HTMLButtonElement>;
+
+    // console.log(deleteButtons);
+    deleteButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        // console.log(button.dataset.object);
+        const deletePopup = document.querySelector(
+          ".delete-popup"
+        ) as HTMLDivElement;
+        deletePopup.style.display = "flex";
+        const confirmDeletionButton = document.querySelector(
+          ".confirmDeletionButton"
+        ) as HTMLButtonElement;
+        confirmDeletionButton.addEventListener("click", () => {
+          deletePopup.style.display = "none";
+          const stringifiedListing = button.dataset.object as string;
+          const foundListing = findListing(stringifiedListing);
+          if (foundListing !== null) {
+            deleteListing(foundListing);
+            if (adminAnnoncesContainer) adminAnnoncesContainer.innerHTML = "";
+            navigateSection("admin");
+          }
+        });
+      });
+    });
+  }
   const pageId = section + "Page";
   const page = document.getElementById(pageId);
   if (page) {
     page.style.display = "block"; // Show the selected page
   }
+}
+
+function injectAdminContent(
+  listings: TousBiens[],
+  annoncesDiv: HTMLDivElement
+) {
+  const targetDiv = annoncesDiv;
+  listings.forEach((listing) => {
+    const div = document.createElement("div");
+    div.classList.add("admin-annonce-card");
+    const commonInfoCard = createAnnonceCard(listing);
+    div.appendChild(commonInfoCard);
+    targetDiv.appendChild(div);
+  });
+}
+
+function createAnnonceCard(listing: TousBiens) {
+  const div = document.createElement("div");
+  const annonceImage = document.createElement("img") as HTMLImageElement;
+  annonceImage.classList.add("admin-annonce-card-image");
+  annonceImage.src = listing.photoUrl;
+  const location = document.createElement("p");
+  location.textContent = `${listing.ville}, ${listing.pays}`;
+  location.classList.add("admin-annonce-card-location");
+  const type = createParagraphWithClass(
+    listing.type,
+    "admin-annonce-card-type"
+  );
+  const prestataire = createParagraphWithClass(
+    listing.prestataire,
+    "admin-annonce-card-prestataire"
+  );
+  const duree = createParagraphWithClass(
+    listing.duree,
+    "admin-annonce-card-duree"
+  );
+  const prix = createParagraphWithClass(
+    listing.prix.toString(),
+    "admin-annonce-card-prix"
+  );
+
+  const buttonsContainer = document.createElement("div") as HTMLDivElement;
+  buttonsContainer.classList.add("admin-annonce-card-buttons-container");
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "supprimer";
+  deleteButton.dataset.object = JSON.stringify(listing);
+  deleteButton.classList.add("delete-button");
+  buttonsContainer.appendChild(deleteButton);
+  const elements = [
+    annonceImage,
+    location,
+    type,
+    prestataire,
+    duree,
+    prix,
+    buttonsContainer,
+  ];
+  elements.forEach((element) => {
+    div.appendChild(element);
+  });
+  return div;
+}
+
+function createParagraphWithClass(
+  textContent: string,
+  className: string
+): HTMLParagraphElement {
+  const paragraph = document.createElement("p");
+  paragraph.textContent = textContent;
+  paragraph.classList.add(className);
+  return paragraph;
 }
 
 export function showSelectedForm(type: string) {

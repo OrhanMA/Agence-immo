@@ -24,7 +24,7 @@ function saveObjectToLocalStorage(
 
 export function handlePhotoAndSave(
   photoInputID: string,
-  classeIntance: Maison | Garage | Appartement,
+  classeInstance: Maison | Garage | Appartement,
   localStorageArrayName: string
 ) {
   const photoInput = document.getElementById(photoInputID) as HTMLInputElement;
@@ -39,13 +39,13 @@ export function handlePhotoAndSave(
     reader.onload = (event) => {
       if (event.target) {
         photoUrl = event.target.result as string;
-        classeIntance.photoUrl = photoUrl;
+        classeInstance.photoUrl = photoUrl;
       }
-      saveObjectToLocalStorage(localStorageArrayName, classeIntance);
+      saveObjectToLocalStorage(localStorageArrayName, classeInstance);
     };
 
     reader.readAsDataURL(file);
   } else {
-    saveObjectToLocalStorage(localStorageArrayName, classeIntance);
+    saveObjectToLocalStorage(localStorageArrayName, classeInstance);
   }
 }

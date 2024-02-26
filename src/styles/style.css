@@ -190,12 +190,14 @@
 
 .home-container,
 .connection-container,
-.create-container {
+.create-container,
+.admin-container {
   padding: 1rem;
   display: flex;
   flex-direction: column;
 }
-.home-container {
+.home-container,
+.admin-container {
   align-items: center;
 }
 
@@ -205,7 +207,8 @@
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
 }
-.annonces {
+.annonces,
+.admin-annonces-container {
   padding: 0.5rem;
   margin: auto;
   display: grid;
@@ -215,19 +218,22 @@
   width: 100%;
 }
 
-.annonce-card {
+.annonce-card,
+.admin-annonce-card {
   width: 100%;
   margin-bottom: 2rem;
 }
 
-.annonce-card > img {
+.annonce-card > img,
+.admin-annonce-card > div > img {
   border-radius: 10px;
   width: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
 }
 
-.annonce-card > div {
+.annonce-card > div,
+.admin-annonce-card > div {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -239,28 +245,33 @@
   text-align: center;
 } */
 
-.annonce-card div :first-child {
+.annonce-card div :first-child,
+.admin-annonce-card div :nth-child(2) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .annonce-card div :nth-child(2),
 .annonce-card div :nth-child(3),
-.secondary-fields {
+.secondary-fields,
+.admin-annonce-card div :nth-child(3),
+.admin-annonce-card div :nth-child(4) {
   color: var(--dim-gray);
   font-size: 1rem;
   font-weight: 300;
 }
 
-.annonce-card div :nth-child(4) {
+.annonce-card div :nth-child(4),
+.admin-annonce-card div :nth-child(5) {
   font-weight: 400;
 }
 
-.annonce-card div .bold {
+.annonce-card div .bold .admin-annonce-card div :nth-child(6) {
   font-weight: 500;
 }
 
-.annonce-card-details {
+.annonce-card-details,
+.admin-annonce-card > .admin-annonce-card-buttons-container {
   display: flex;
   flex-direction: row;
   gap: 1rem;
@@ -445,7 +456,8 @@
   cursor: pointer;
 }
 
-.credentialsPopup {
+.credentialsPopup,
+.delete-popup {
   position: absolute;
   background-color: var(--back-gray);
   color: var(--eerie-black);
@@ -458,22 +470,46 @@
   padding: 2rem;
 }
 
-.credentialsPopup > button {
-  background: var(--eerie-black);
-  color: var(--back-gray);
+.credentialsPopup > button,
+.delete-popup > button {
   padding: 0.5rem 1rem;
   font-size: 1.125rem;
   border: none;
   border-radius: 5px;
 }
 
-.credentialsPopup > p {
+.delete-popup b {
+  color: var(--desctructive);
+}
+
+.confirmDeletionButton {
+  background-color: var(--desctructive);
+  color: var(--back-gray);
+}
+
+.credentialsPopup > button {
+  background: var(--eerie-black);
+  color: var(--back-gray);
+}
+
+.credentialsPopup > p,
+.delete-popup > p {
   font-size: 1.2rem;
   text-align: center;
 }
 
+.delete-button {
+  padding: 0.3rem 0.5rem;
+  background-color: var(--desctructive);
+  color: var(--back-gray);
+  border: none;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+}
+
 @media screen and (min-width: 550px) {
-  .annonces {
+  .annonces,
+  .admin-annonces-container {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -511,18 +547,21 @@
   .header {
     padding: 1rem 2rem;
   }
-  .annonces {
+  .annonces,
+  .admin-annonces-container {
     gap: 1rem;
     padding: 1rem;
   }
 
-  .annonce-card div p {
+  .annonce-card div p,
+  .admin-annonce-card div p {
     text-align: left;
   }
 }
 
 @media screen and (min-width: 950px) {
-  .annonces {
+  .annonces,
+  .admin-container {
     grid-template-columns: repeat(3, 1fr);
   }
 }
@@ -548,7 +587,8 @@
 }
 
 @media screen and (min-width: 1128px) {
-  .annonces {
+  .annonces,
+  .admin-annonces-container {
     grid-template-columns: repeat(4, 1fr);
   }
 }
@@ -556,7 +596,8 @@
   .create-container {
     width: 40%;
   }
-  .annonces {
+  .annonces,
+  .admin-annonces-container {
     padding: 3rem;
     gap: 1.5rem;
   }
@@ -571,7 +612,8 @@
   }
 }
 @media screen and (min-width: 1640px) {
-  .annonces {
+  .annonces,
+  .admin-annonces-container {
     grid-template-columns: repeat(5, 1fr);
   }
 }

@@ -68,6 +68,15 @@
       <p>Identifiants incorrects. Veuillez réesayer.</p>
       <button type="button" class="retryLoginButton">Réesayez</button>
     </div>
+    <div class="delete-popup">
+      <p>
+        Êtes-vous sûr de vouloir supprimer cette annonce? Cette action est
+        <b> irréversible. </b>
+      </p>
+      <button type="button" class="confirmDeletionButton">
+        Oui, je suis sûr.
+      </button>
+    </div>
     <div id="app">
       <div id="homePage" class="page" style="display: none">
         <div class="home-container">
@@ -396,6 +405,7 @@
         <!-- Content for the admin page goes here -->
         <div class="admin-container">
           <h1>Admin page</h1>
+          <div class="admin-annonces-container"></div>
         </div>
       </div>
     </div>
