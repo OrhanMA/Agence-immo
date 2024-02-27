@@ -233,11 +233,13 @@ export function updateCategoryStyle() {
     buttons.forEach((button) => {
       if (button.textContent) {
         if (button.textContent.toLowerCase() === filtreMobileType) {
+          button.style.color = "var(--pink)";
           button.style.fontWeight = "500";
         } else {
           if (button.textContent.toLowerCase() === "tous") {
             button.style.fontWeight = "500";
           }
+          button.style.color = "black";
           button.style.fontWeight = "300";
         }
       }
