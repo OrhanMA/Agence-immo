@@ -31,138 +31,80 @@ export function injectListing<T extends BienImmobilierInterface>(
   const annonceContainer = document.querySelector(".annonces");
   if (annonceContainer) annonceContainer.innerHTML = "";
 
-  if (listings.length === 0) {
-    const paragraph = document.createElement("p");
-    paragraph.textContent = "Aucun annonce pour le moment";
-    const button = document.createElement("button");
-    button.textContent = "ajouter une annonce";
-    button.style.padding = "0.3rem 0.5rem";
-    button.style.backgroundColor = "var(--eerie-black)";
-    button.style.color = "var(--ghost-gray)";
-    button.style.borderRadius = "5px";
-    button.style.border = "none";
+  if (listings.length === 0 && annonceContainer) {
+    annonceContainer.innerHTML += `
+    <p>Aucune annonce pour le moment</p>
+    <button class="add-button">Ajouter une annonce</button>
+    `;
+    const button = annonceContainer.querySelector(
+      "button"
+    ) as HTMLButtonElement;
     button.addEventListener("click", (e) => {
       e.preventDefault();
       navigateSection("create");
     });
-    annonceContainer?.appendChild(paragraph);
-    annonceContainer?.appendChild(button);
-    return;
   }
 
   listings.forEach((annonce: any) => {
     const annonceCard = document.createElement("div");
     annonceCard.classList.add("annonce-card");
+    const detailsContainer = document.createElement("div");
 
+    detailsContainer.innerHTML = `
+      <p>${annonce.ville}, ${annonce.pays}</p>
+      <p>${annonce.type}</p>
+      <p>${annonce.prestataire}</p>
+      <p>${annonce.duree}</p>
+      <p><span class="bold">${annonce.prix}</span> par jour</p>
+    `;
     const image = document.createElement("img");
     image.draggable = false;
     if (annonce.photoUrl !== "") {
       image.src = annonce.photoUrl;
-      image.alt = annonce.ville + "annonce image";
+      image.alt = annonce.ville + " annonce image";
     } else {
       image.src = "/assets/images/not-found.jpg";
       image.alt = "image not found picture";
     }
 
-    const detailsContainer = document.createElement("div");
-
-    const location = document.createElement("p");
-    location.textContent = `${annonce.ville}, ${annonce.pays}`;
-    const type = document.createElement("p");
-    type.textContent = annonce.type;
-    const prestataire = document.createElement("p");
-    prestataire.textContent = annonce.prestataire;
-    const dates = document.createElement("p");
-    dates.textContent = annonce.duree;
-    const price = document.createElement("p");
-    const bold = document.createElement("span");
-    bold.classList.add("bold");
-    bold.textContent = `${annonce.prix}€`;
-    price.appendChild(bold);
-    price.innerHTML += " par jour";
-
-    detailsContainer.appendChild(location);
-    detailsContainer.appendChild(type);
-    detailsContainer.appendChild(prestataire);
-    detailsContainer.appendChild(dates);
-    detailsContainer.appendChild(price);
-
-    // Ajouter du contenu spécifique en fonction du type d'annonce
     if ("etages" in annonce) {
       const maison = annonce as unknown as MaisonInterface;
       const detailsDiv = document.createElement("div");
       detailsDiv.classList.add("annonce-card-details");
 
-      const etagesDiv = document.createElement("div");
-      etagesDiv.classList.add("annonce-card-details-group");
-      const etagesIcon = document.createElement("img");
-      etagesIcon.src = "/assets/stairs.png";
-      etagesIcon.alt = "stairs icon";
-      etagesIcon.style.width = "20px";
-      const etages = document.createElement("p");
-      etages.textContent = `${maison.etages}`;
-
-      const jardinDiv = document.createElement("div");
-      jardinDiv.classList.add("annonce-card-details-group");
-      const jardinIcon = document.createElement("img");
-      jardinIcon.src = "/assets/tree.png";
-      jardinIcon.alt = "garden icon";
-      jardinIcon.style.width = "20px";
-      const jardin = document.createElement("p");
-      jardin.textContent = `${maison.jardin ? "✅" : "❌"}`;
-
-      const garageDiv = document.createElement("div");
-      garageDiv.classList.add("annonce-card-details-group");
-      const garageIcon = document.createElement("img");
-      garageIcon.src = "/assets/private-garage.png";
-      garageIcon.alt = "garage icon";
-      garageIcon.style.width = "20px";
-      const garage = document.createElement("p");
-      garage.textContent = `${maison.garage ? "✅" : "❌"}`;
-
-      etages.classList.add("secondary-fields");
-      jardin.classList.add("secondary-fields");
-      garage.classList.add("secondary-fields");
-      etagesDiv.appendChild(etagesIcon);
-      etagesDiv.appendChild(etages);
-      jardinDiv.appendChild(jardinIcon);
-      jardinDiv.appendChild(jardin);
-      garageDiv.appendChild(garageIcon);
-      garageDiv.appendChild(garage);
-      detailsDiv.appendChild(etagesDiv);
-      detailsDiv.appendChild(jardinDiv);
-      detailsDiv.appendChild(garageDiv);
+      detailsDiv.innerHTML = `
+      <div class="annonce-card-details-group">
+        <img src="/assets/stairs.png" alt="stairs icon" style={width: 20px;} />
+        <p class="secondary-fields">${maison.etages}</p>
+      </div>
+      <div class="annonce-card-details-group">
+        <img src="/assets/tree.png" alt="garden icon" style={width: 20px;} />
+        <p class="secondary-fields">${maison.jardin ? "✅" : "❌"}</p>
+      </div>
+      <div class="annonce-card-details-group">
+        <img src="/assets/private-garage.png" alt="garage icon" style={width: 20px;} />
+        <p class="secondary-fields">${maison.garage ? "✅" : "❌"}</p>
+      </div>
+      `;
       detailsContainer.appendChild(detailsDiv);
     } else if ("etage" in annonce) {
       const appartement = annonce as unknown as AppartementInterface;
-      const etage = document.createElement("p");
-      etage.textContent = `Étage: ${appartement.etage}`;
-      const balcon = document.createElement("p");
-      balcon.textContent = `Balcon: ${appartement.balcon ? "✅" : "❌"}`;
-      const ascenseur = document.createElement("p");
-      ascenseur.textContent = `Ascenseur: ${
+      detailsContainer.innerHTML += `
+      <p class="secondary-fields">N°étage: ${appartement.etage}</p>
+      <p class="secondary-fields">Balcon: ${
+        appartement.balcon ? "✅" : "❌"
+      }</p>
+      <p class="secondary-fields">Ascenseur: ${
         appartement.ascenseur ? "✅" : "❌"
-      }`;
-      etage.classList.add("secondary-fields");
-      balcon.classList.add("secondary-fields");
-      ascenseur.classList.add("secondary-fields");
-      detailsContainer.appendChild(etage);
-      detailsContainer.appendChild(balcon);
-      detailsContainer.appendChild(ascenseur);
+      }</p>
+      `;
     } else if ("places" in annonce) {
       const garage = annonce as unknown as GarageInterface;
-      const places = document.createElement("p");
-      places.textContent = `Places: ${garage.places}`;
-      const outils = document.createElement("p");
-      outils.textContent = `Outils: ${garage.outils ? "✅" : "❌"}`;
-      const ouverture = document.createElement("p");
-      ouverture.textContent = `Ouverture: ${garage.ouverture}`;
-      places.classList.add("secondary-fields");
-      outils.classList.add("secondary-fields");
-      ouverture.classList.add("secondary-fields");
-      detailsContainer.appendChild(places);
-      detailsContainer.appendChild(outils);
-      detailsContainer.appendChild(ouverture);
+      detailsContainer.innerHTML += `
+      <p class="secondary-fields">Places: ${garage.places}</p>
+      <p class="secondary-fields">Outils: ${garage.outils ? "✅" : "❌"}</p>
+      <p class="secondary-fields">Ouverture: ${garage.ouverture}</p>
+      `;
     }
 
     annonceCard.appendChild(image);
@@ -177,54 +119,17 @@ export function navigateSection(section: string) {
     return;
   }
   document.querySelectorAll(".page").forEach((page: any) => {
-    page.style.display = "none"; // Hide all pages
+    page.style.display = "none";
   });
 
   // après que la connexion soit validée, injection et redirection vers admin
   if (section === "admin") {
-    const listings = getAllListings();
-    const adminAnnoncesContainer = document.querySelector(
-      ".admin-annonces-container"
-    ) as HTMLDivElement;
-    adminAnnoncesContainer.innerHTML = "";
-    injectAdminContent(listings, adminAnnoncesContainer);
-    const deleteButtons = document.querySelectorAll(
-      ".delete-button"
-    ) as NodeListOf<HTMLButtonElement>;
-
-    deleteButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const deletePopup = document.querySelector(
-          ".delete-popup"
-        ) as HTMLDivElement;
-        deletePopup.style.display = "flex";
-        const confirmDeletionButton = document.querySelector(
-          ".confirmDeletionButton"
-        ) as HTMLButtonElement;
-        const annulationButton = document.querySelector(
-          ".annulationButton"
-        ) as HTMLButtonElement;
-        confirmDeletionButton.addEventListener("click", () => {
-          deletePopup.style.display = "none";
-          const stringifiedListing = button.dataset.object as string;
-          const foundListing = findListing(stringifiedListing);
-          if (foundListing !== null) {
-            deleteListing(foundListing);
-            if (adminAnnoncesContainer) adminAnnoncesContainer.innerHTML = "";
-            navigateSection("admin");
-          }
-        });
-        annulationButton.addEventListener("click", () => {
-          deletePopup.style.display = "none";
-          navigateSection("admin");
-        });
-      });
-    });
+    handleAdminNavigation();
   }
   const pageId = section + "Page";
   const page = document.getElementById(pageId);
   if (page) {
-    page.style.display = "block"; // Show the selected page
+    page.style.display = "block";
   }
 }
 
@@ -242,73 +147,71 @@ function injectAdminContent(
   });
 }
 
-let listingToEdit;
+function handleAdminNavigation() {
+  const listings = getAllListings();
+  const adminAnnoncesContainer = document.querySelector(
+    ".admin-annonces-container"
+  ) as HTMLDivElement;
+  adminAnnoncesContainer.innerHTML = "";
+  injectAdminContent(listings, adminAnnoncesContainer);
+  const deleteButtons = document.querySelectorAll(
+    ".delete-button"
+  ) as NodeListOf<HTMLButtonElement>;
+
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const deletePopup = document.querySelector(
+        ".delete-popup"
+      ) as HTMLDivElement;
+      deletePopup.style.display = "flex";
+      const confirmDeletionButton = document.querySelector(
+        ".confirmDeletionButton"
+      ) as HTMLButtonElement;
+      const annulationButton = document.querySelector(
+        ".annulationButton"
+      ) as HTMLButtonElement;
+      confirmDeletionButton.addEventListener("click", () => {
+        deletePopup.style.display = "none";
+        const stringifiedListing = button.dataset.object as string;
+        const foundListing = findListing(stringifiedListing);
+        if (foundListing !== null) {
+          deleteListing(foundListing);
+          if (adminAnnoncesContainer) adminAnnoncesContainer.innerHTML = "";
+          navigateSection("admin");
+        }
+      });
+      annulationButton.addEventListener("click", () => {
+        deletePopup.style.display = "none";
+        navigateSection("admin");
+      });
+    });
+  });
+}
+
 function createAnnonceCard(listing: TousBiens) {
   const div = document.createElement("div");
-  const annonceImage = document.createElement("img") as HTMLImageElement;
-  annonceImage.classList.add("admin-annonce-card-image");
-  annonceImage.src = listing.photoUrl;
-  const location = document.createElement("p");
-  location.textContent = `${listing.ville}, ${listing.pays}`;
-  location.classList.add("admin-annonce-card-location");
-  const type = createParagraphWithClass(
-    listing.type,
-    "admin-annonce-card-type"
-  );
-  const prestataire = createParagraphWithClass(
-    listing.prestataire,
-    "admin-annonce-card-prestataire"
-  );
-  const duree = createParagraphWithClass(
-    listing.duree,
-    "admin-annonce-card-duree"
-  );
-  const prix = createParagraphWithClass(
-    listing.prix.toString(),
-    "admin-annonce-card-prix"
-  );
-
-  const buttonsContainer = document.createElement("div") as HTMLDivElement;
-  buttonsContainer.classList.add("admin-annonce-card-buttons-container");
-
-  const editButton = document.createElement("button");
-  const deleteButton = document.createElement("button");
-  editButton.textContent = "modifier";
-  deleteButton.textContent = "supprimer";
-  editButton.classList.add("edit-button");
-  deleteButton.classList.add("delete-button");
+  div.innerHTML = `
+  <img class="admin-annonce-card-image" src="${
+    listing.photoUrl !== "" ? listing.photoUrl : "/assets/images/not-found.jpg"
+  }" />
+  <p class="admin-annonce-card-location">${listing.ville}, ${listing.pays}</p>
+  <p class="admin-annonce-card-type">${listing.type}</p>
+  <p class="admin-annonce-card-prestataire">${listing.prestataire}</p>
+  <p class="admin-annonce-card-duree">${listing.duree}</p>
+  <p class="admin-annonce-card-prix">${listing.prix}</p>
+  <div class="admin-annonce-card-buttons-container">
+    <button class="edit-button">modifier</button>
+    <button class="delete-button">supprimer</button>
+  </div>
+  `;
+  const editButton = div.querySelector(".edit-button") as HTMLButtonElement;
+  const deleteButton = div.querySelector(".delete-button") as HTMLButtonElement;
   deleteButton.dataset.object = JSON.stringify(listing);
-
-  buttonsContainer.appendChild(editButton);
-  buttonsContainer.appendChild(deleteButton);
-
   editButton.addEventListener("click", () => {
     navigateSection("edit");
   });
 
-  const elements = [
-    annonceImage,
-    location,
-    type,
-    prestataire,
-    duree,
-    prix,
-    buttonsContainer,
-  ];
-  elements.forEach((element) => {
-    div.appendChild(element);
-  });
   return div;
-}
-
-function createParagraphWithClass(
-  textContent: string,
-  className: string
-): HTMLParagraphElement {
-  const paragraph = document.createElement("p");
-  paragraph.textContent = textContent;
-  paragraph.classList.add(className);
-  return paragraph;
 }
 
 export function showSelectedForm(type: string) {
@@ -325,7 +228,7 @@ export function showSelectedForm(type: string) {
 export function updateCategoryStyle() {
   const buttons = document.querySelectorAll(
     ".mainNav button"
-  ) as NodeListOf<HTMLButtonElement>; // Select all category buttons
+  ) as NodeListOf<HTMLButtonElement>;
   if (buttons) {
     buttons.forEach((button) => {
       if (button.textContent) {
@@ -358,5 +261,3 @@ export function navigateToSectionOnClick(button: Element, section: string) {
     if (mobileNavList.style.display != "none") handleMobileMenu();
   });
 }
-
-function showEditForm() {}

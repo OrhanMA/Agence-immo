@@ -12,6 +12,7 @@ const createContainer = document.querySelector(".create-container");
 export const createForms = createContainer?.querySelectorAll("form");
 
 window.onload = () => {
+  // au chargement de la page, injecte les annoncs et affiche la div homePage
   domHelper.injectListing(listingHelper.getAllListings());
   domHelper.navigateSection("home");
 };
@@ -41,6 +42,7 @@ const mobileFilterChoiceButtons = document.querySelectorAll(
   ".mobile-filter-choice"
 ) as NodeListOf<HTMLButtonElement>;
 const headerFiltersButtons = document.querySelectorAll(".headerFilterButton");
+// cache le menu mobile de base
 mobileNavList.style.display = "none";
 const mobileMenuButton = document.querySelector(".mobileMenuButton");
 const buttonsToHome = document.querySelectorAll(".buttonsToHome");
@@ -58,12 +60,15 @@ const priceButtons = document.querySelectorAll(
 const credentialsPopupDiv = document.querySelector(
   ".credentialsPopup"
 ) as HTMLDivElement;
+// cache la popup de connexion au chargement de la page
 credentialsPopupDiv.style.display = "none";
 const retryLoginButton = credentialsPopupDiv.querySelector(
   ".retryLoginButton"
 ) as HTMLButtonElement;
 const deletePopup = document.querySelector(".delete-popup") as HTMLDivElement;
+// cache la popup de suppresion au chargement de la page
 deletePopup.style.display = "none";
+// cache la la dialog pour les filters en taille mobile au chargement de la page
 filtersDialog.style.display = "none";
 
 mobileMenuButton?.addEventListener("click", () => {
