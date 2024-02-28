@@ -1,5 +1,13 @@
 :root {
-  font-size: 16px;
+  --pink: #ff385c;
+  --dark-pink: #e9284b;
+  --eerie-black: #222222;
+  --eerie-light: #3e3e3e;
+  --dim-gray: #717171;
+  --ghost-gray: #ebebeb;
+  --back-gray: #f7f7f7;
+  --desctructive: #eb002a;
+  --destructive-dark: #c60024;
 }
 
 * {
@@ -9,6 +17,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .hidden {
@@ -119,6 +132,7 @@
   display: none;
   color: var(--pink);
   font-weight: 500;
+  font-size: 1.125rem;
 }
 
 .mainNav {
@@ -177,6 +191,10 @@
   color: white;
 }
 
+.admin-container h1 {
+  margin-bottom: 2rem;
+}
+
 .home-container,
 .connection-container,
 .create-container,
@@ -214,7 +232,7 @@
 }
 
 .annonce-card > img,
-.admin-annonce-card > div > img {
+.admin-annonce-card-image {
   border-radius: 10px;
   width: 100%;
   aspect-ratio: 1/1;
@@ -227,48 +245,39 @@
   flex-direction: column;
   gap: 0.5rem;
   width: 100%;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
 }
 
 .annonce-card div :first-child,
-.admin-annonce-card div :nth-child(2) {
+.admin-annonce-card-location {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.annonce-card div :nth-child(2),
-.annonce-card div :nth-child(3),
-.secondary-fields,
-.admin-annonce-card div :nth-child(3),
-.admin-annonce-card div :nth-child(4) {
+.secondary-fields {
   color: var(--dim-gray);
-  font-size: 1rem;
   font-weight: 300;
 }
 
-.annonce-card div :nth-child(4),
-.admin-annonce-card div :nth-child(5) {
-  font-weight: 400;
-}
-
-.annonce-card div .bold .admin-annonce-card div :nth-child(6) {
-  font-weight: 500;
+.annonce-card > div :nth-child(4) {
+  border-bottom: solid 1px var(--ghost-gray);
+  padding-bottom: 1rem;
 }
 
 .annonce-card-details,
-.admin-annonce-card > .admin-annonce-card-buttons-container {
+.admin-annonce-card-buttons-container {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
   margin-top: 0.5rem;
 }
-
-.annonce-card-details-group {
+.annonce-card-details {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: fit-content;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.admin-annonce-card-buttons-container {
+  gap: 1rem;
 }
 
 .create-container,
@@ -302,15 +311,11 @@
     width: 100%;
 
     button {
-      background-color: var(--eerie-black);
-      color: var(--ghost-gray);
-      padding: 0.5rem 2rem;
       font-size: 1.125rem; /* 18px */
       line-height: 1.75rem; /* 28px */
-      border: none;
-      border-radius: 5px;
       width: 100%;
     }
+
     .field-container {
       width: 100%;
 
@@ -397,8 +402,6 @@
 }
 
 #connexionForm > button {
-  font-size: 1rem;
-  padding: 0.3rem 0.5rem;
   margin-top: 0.5rem;
 }
 
@@ -427,15 +430,6 @@
   gap: 0.5rem;
 }
 
-.large-screen-filters button {
-  font-weight: 300;
-  padding: 0.2rem 0.5rem;
-  background-color: var(--eerie-black);
-  color: var(--ghost-gray);
-  border: none;
-  border-radius: 5px;
-}
-
 .buttonsToHome:hover,
 .buttonsToCreate:hover,
 .buttonsToConnexion:hover {
@@ -445,7 +439,7 @@
 .credentialsPopup,
 .delete-popup {
   position: fixed;
-  background-color: var(--back-gray);
+  background-color: white;
   color: var(--eerie-black);
   height: 100%;
   width: 100%;
@@ -458,10 +452,7 @@
 
 .credentialsPopup > button,
 .delete-popup > button {
-  padding: 0.5rem 1rem;
   font-size: 1.125rem;
-  border: none;
-  border-radius: 5px;
 }
 
 .delete-popup b {
@@ -473,11 +464,6 @@
   color: var(--back-gray);
 }
 
-.credentialsPopup > button {
-  background: var(--eerie-black);
-  color: var(--back-gray);
-}
-
 .credentialsPopup > p,
 .delete-popup > p {
   font-size: 1.2rem;
@@ -486,45 +472,28 @@
 .admin-annonce-card-buttons-container {
   display: flex;
   gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 .edit-button,
 .delete-button {
   width: 50%;
-  padding: 0.5rem 0.5rem;
-  border: none;
-  border-radius: 5px;
-  margin-top: 0.5rem;
-  color: var(--back-gray);
 }
 
-.edit-button {
-  background-color: var(--eerie-black);
-}
-.edit-button:hover {
-  background-color: var(--eerie-light);
-}
-.delete-button {
-  background-color: var(--pink);
-}
-.delete-button:hover {
-  background-color: var(--dark-pink);
-}
-
-.add-button {
+/* .add-button {
   padding: 0.3rem 0.5rem;
   background-color: var(--eerie-black);
   color: var(--ghost-gray);
   border-radius: 5px;
   border: none;
-}
+} */
 
 #app {
   padding-top: 1rem;
 }
 
-.price-filter:hover {
+/* .price-filter:hover {
   background-color: var(--eerie-light);
-}
+} */
 
 @media screen and (min-width: 550px) {
   .annonces,
@@ -606,10 +575,6 @@
       padding: 0.2rem 1rem;
     }
   }
-
-  .price-filter {
-    font-size: 1rem;
-  }
 }
 
 @media screen and (min-width: 1128px) {
@@ -644,6 +609,34 @@
   }
 }
 
+button {
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  transition: all ease-in 200ms;
+}
+
 button:hover {
   cursor: pointer;
+}
+
+.button-eerie {
+  background-color: var(--eerie-light);
+  color: var(--back-gray);
+}
+
+.button-pink {
+  background-color: var(--dark-pink);
+  color: var(--back-gray);
+}
+
+.button-pink:hover,
+.button-eerie:focus {
+  background-color: var(--pink);
+  color: white;
+}
+.button-eerie:hover,
+.button-eerie:focus {
+  background-color: var(--eerie-black);
+  color: white;
 }

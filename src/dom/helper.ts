@@ -34,7 +34,7 @@ export function injectListing<T extends BienImmobilierInterface>(
   if (listings.length === 0 && annonceContainer) {
     annonceContainer.innerHTML += `
     <p>Aucune annonce pour le moment</p>
-    <button class="add-button">Ajouter une annonce</button>
+    <button class="button-eerie">Ajouter une annonce</button>
     `;
     const button = annonceContainer.querySelector(
       "button"
@@ -52,10 +52,9 @@ export function injectListing<T extends BienImmobilierInterface>(
 
     detailsContainer.innerHTML = `
       <p>${annonce.ville}, ${annonce.pays}</p>
-      <p>${annonce.type}</p>
-      <p>${annonce.prestataire}</p>
+      <p class="secondary-fields">${annonce.type} - ${annonce.prestataire}</p>
       <p>${annonce.duree}</p>
-      <p><span class="bold">${annonce.prix}</span> par jour</p>
+      <p><span class="bold">${annonce.prix}€</span> par jour</p>
     `;
     const image = document.createElement("img");
     image.draggable = false;
@@ -66,49 +65,39 @@ export function injectListing<T extends BienImmobilierInterface>(
       image.src = "/assets/images/not-found.jpg";
       image.alt = "image not found picture";
     }
+    const detailsDiv = document.createElement("div");
+    detailsDiv.classList.add("annonce-card-details");
 
     if ("etages" in annonce) {
       const maison = annonce as unknown as MaisonInterface;
-      const detailsDiv = document.createElement("div");
-      detailsDiv.classList.add("annonce-card-details");
-
       detailsDiv.innerHTML = `
-      <div class="annonce-card-details-group">
-        <img src="/assets/stairs.png" alt="stairs icon" style={width: 20px;} />
-        <p class="secondary-fields">${maison.etages}</p>
-      </div>
-      <div class="annonce-card-details-group">
-        <img src="/assets/tree.png" alt="garden icon" style={width: 20px;} />
-        <p class="secondary-fields">${maison.jardin ? "✅" : "❌"}</p>
-      </div>
-      <div class="annonce-card-details-group">
-        <img src="/assets/private-garage.png" alt="garage icon" style={width: 20px;} />
-        <p class="secondary-fields">${maison.garage ? "✅" : "❌"}</p>
-      </div>
+      <p class="secondary-fields">étages: ${maison.etages}</p>
+      <p class="secondary-fields">jardin: ${maison.jardin ? "oui" : "non"}</p>
+      <p class="secondary-fields">garage: ${maison.garage ? "oui" : "non"}</p>
       `;
-      detailsContainer.appendChild(detailsDiv);
     } else if ("etage" in annonce) {
       const appartement = annonce as unknown as AppartementInterface;
-      detailsContainer.innerHTML += `
-      <p class="secondary-fields">N°étage: ${appartement.etage}</p>
-      <p class="secondary-fields">Balcon: ${
-        appartement.balcon ? "✅" : "❌"
+      detailsDiv.innerHTML += `
+      <p class="secondary-fields">n°étage: ${appartement.etage}</p>
+      <p class="secondary-fields">balcon: ${
+        appartement.balcon ? "oui" : "non"
       }</p>
-      <p class="secondary-fields">Ascenseur: ${
-        appartement.ascenseur ? "✅" : "❌"
+      <p class="secondary-fields">ascenseur: ${
+        appartement.ascenseur ? "oui" : "non"
       }</p>
       `;
     } else if ("places" in annonce) {
       const garage = annonce as unknown as GarageInterface;
-      detailsContainer.innerHTML += `
-      <p class="secondary-fields">Places: ${garage.places}</p>
-      <p class="secondary-fields">Outils: ${garage.outils ? "✅" : "❌"}</p>
-      <p class="secondary-fields">Ouverture: ${garage.ouverture}</p>
+      detailsDiv.innerHTML += `
+      <p class="secondary-fields">places: ${garage.places}</p>
+      <p class="secondary-fields">outils: ${garage.outils ? "oui" : "non"}</p>
+      <p class="secondary-fields">ouverture: ${garage.ouverture}</p>
       `;
     }
 
     annonceCard.appendChild(image);
     annonceCard.appendChild(detailsContainer);
+    detailsContainer.appendChild(detailsDiv);
     if (annonceContainer) annonceContainer.appendChild(annonceCard);
   });
 }
@@ -195,13 +184,14 @@ function createAnnonceCard(listing: TousBiens) {
     listing.photoUrl !== "" ? listing.photoUrl : "/assets/images/not-found.jpg"
   }" />
   <p class="admin-annonce-card-location">${listing.ville}, ${listing.pays}</p>
-  <p class="admin-annonce-card-type">${listing.type}</p>
-  <p class="admin-annonce-card-prestataire">${listing.prestataire}</p>
+  <p class="admin-annonce-card-type secondary-fields">${listing.type} - ${
+    listing.prestataire
+  }</p>
   <p class="admin-annonce-card-duree">${listing.duree}</p>
-  <p class="admin-annonce-card-prix">${listing.prix}</p>
+  <p class="admin-annonce-card-prix">${listing.prix}€ par jour</p>
   <div class="admin-annonce-card-buttons-container">
-    <button class="edit-button">modifier</button>
-    <button class="delete-button">supprimer</button>
+    <button class="edit-button button-eerie">modifier</button>
+    <button class="delete-button button-pink">supprimer</button>
   </div>
   `;
   const editButton = div.querySelector(".edit-button") as HTMLButtonElement;

@@ -10,8 +10,6 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/src/styles/style.css" />
-    <link rel="stylesheet" href="/src/styles/text.css" />
-    <link rel="stylesheet" href="/src/styles/colors.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Airbnb</title>
     <script type="module" src="/src/main.ts" defer></script>
@@ -26,7 +24,7 @@
             style="width: 25px"
             alt="Airbnb logo"
           />
-          <p class="text-lg buttonsToHome">Airbnb</p>
+          <p class="buttonsToHome">Airbnb</p>
         </button>
         <button class="mobileMenuButton" type="button">
           <img
@@ -66,7 +64,9 @@
     </ul>
     <div class="credentialsPopup">
       <p>Identifiants incorrects. Veuillez réesayer.</p>
-      <button type="button" class="retryLoginButton">Réesayez</button>
+      <button type="button" class="retryLoginButton button-eerie">
+        Réesayez
+      </button>
     </div>
     <div class="delete-popup">
       <p>
@@ -81,14 +81,16 @@
     <div id="app">
       <div id="homePage" class="page" style="display: none">
         <div class="home-container">
+          <h1>Liste des annonces</h1>
+
           <div class="filters-container">
             <button class="mobile-trigger">
               <img src="/public/assets/filter-icon.svg" alt="filtre icon" />
               Filtres
             </button>
             <div class="large-screen-filters">
-              <button class="price-filter">Prix -</button>
-              <button class="price-filter">Prix +</button>
+              <button class="price-filter button button-eerie">Prix -</button>
+              <button class="price-filter button button-eerie">Prix +</button>
             </div>
             <div class="filters-dialog hidden">
               <button class="mobile-filter-choice">Tous</button>
@@ -125,7 +127,7 @@
                 <label for="password">Mot de passe</label>
                 <input required type="password" name="password" id="password" />
               </div>
-              <button type="submit">Connexion</button>
+              <button type="submit" class="button-eerie">Connexion</button>
             </form>
           </div>
           <div class="connexion-logo-div">
@@ -229,7 +231,7 @@
               <input type="checkbox" name="garage" id="maisonGarage" />
             </div>
 
-            <button type="submit">Ajouter</button>
+            <button type="submit" class="button-eerie">Ajouter</button>
           </form>
           <form id="appartementForm">
             <div class="field-container">
@@ -313,7 +315,7 @@
               />
             </div>
 
-            <button type="submit">Ajouter</button>
+            <button type="submit" class="button-eerie">Ajouter</button>
           </form>
           <form id="garageForm">
             <div class="field-container">
@@ -396,7 +398,7 @@
                 accept="image/*"
               />
             </div>
-            <button type="submit">Ajouter</button>
+            <button type="submit" class="button-eerie">Ajouter</button>
           </form>
         </div>
         <!-- Content for the create page goes here -->
@@ -404,7 +406,7 @@
       <div id="adminPage" class="page" style="display: none">
         <!-- Content for the admin page goes here -->
         <div class="admin-container">
-          <h1>Admin page</h1>
+          <h1>Page administrateur</h1>
           <div class="admin-annonces-container"></div>
         </div>
       </div>
